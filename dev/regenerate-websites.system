@@ -1,0 +1,59 @@
+;;;-*- Mode: Lisp; Package: COMMON-LISP-USER -*-
+
+#| simple-header
+
+Author: Gary King
+
+DISCUSSION
+
+|#
+
+(in-package :common-lisp-user)
+
+;;; ---------------------------------------------------------------------------
+;;; Translations
+;;; ---------------------------------------------------------------------------
+
+(glu-define-logical-pathname-translations (regenerate-websites)
+   (source)
+   (utils (:back :back "utils" "dev"))
+   (containers (:back :back "cl-containers" "dev"))
+   (lift (:back :back "lift" "dev"))
+   (MOPTILITIES (:back :back "MOPTILITIES" "DEV"))
+   (website (:back "website")))
+
+;;; ---------------------------------------------------------------------------
+;;; System
+;;; ---------------------------------------------------------------------------
+
+(setf (glu-system-source-file :cl-containers)
+      "regenerate-websites:containers;cl-containers.system"
+      (glu-system-source-file :lift)
+      "regenerate-websites:lift;lift.system"
+      (glu-system-source-file 'moptilities)
+      "regenerate-websites:moptilities;moptilities.system")
+
+;;; ---------------------------------------------------------------------------
+
+(define-glu-system :regenerate-websites
+  ((("package"
+     "class-defs"
+     "macros"
+     "utilities"
+     "regenerate-websites"))
+   
+   (("notes") 
+    :associates? t
+    :base-dir "regenerate-websites:"))
+  
+  ;; DEFAULTS
+  :base-dir "regenerate-websites:source;"
+  :bin-identifiers (:platform :vendor)
+  :top-level t
+  
+  :depends-on (:metatilities
+               :lml2))                    
+
+;;; ***************************************************************************
+;;; *                              End of File                                *
+;;; ***************************************************************************
