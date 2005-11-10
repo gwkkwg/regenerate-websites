@@ -60,4 +60,5 @@ DISCUSSION
     (make-pathname 
      :directory `(,@(pathname-directory *website-output*) :wild-inferiors)
      :name :wild
-     :type :wild))))
+     :type :wild))
+   :if-exists :overwrite))

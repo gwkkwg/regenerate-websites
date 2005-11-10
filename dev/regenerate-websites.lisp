@@ -75,6 +75,16 @@ DISCUSSION
 (defmethod regenerate-file ((kind (eql :png)) file)
   (copy-source-to-output file))
 
+;;; ---------------------------------------------------------------------------
+
+(defmethod regenerate-file ((kind (eql :jpg)) file)
+  (copy-source-to-output file))
+
+;;; ---------------------------------------------------------------------------
+
+(defmethod regenerate-file ((kind (eql :pdf)) file)
+  (copy-source-to-output file))
+
 
 #|
 (in-package few)
