@@ -38,4 +38,8 @@ DISCUSSION
 
 (defpackage "REGENERATE-WEBSITES"
   (:use "COMMON-LISP" "METATILITIES" "LML2")
-  (:nicknames "RW"))
+  (:nicknames "RW")
+   #+DIGITOOL
+  (:import-from "CCL" #:copy-file) 
+  #+OPENMCL
+  (:import-from "CCL" #:copy-file))
