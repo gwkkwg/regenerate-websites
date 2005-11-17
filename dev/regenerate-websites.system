@@ -40,7 +40,8 @@ DISCUSSION
      "class-defs"
      "macros"
      "utilities"
-     "regenerate-websites"))
+     "regenerate-websites"
+     "document-websites"))
    
    (("notes") 
     :associates? t
@@ -52,7 +53,8 @@ DISCUSSION
   :top-level t
   
   :depends-on (:metatilities
-               :lml2))                    
+               :lml2
+               :tinaa))                    
 
 ;;; ***************************************************************************
 ;;; *                              End of File                                *

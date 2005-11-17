@@ -36,16 +36,20 @@ DISCUSSION
 |#
 (in-package regenerate-websites)
 
-(defparameter *meta-systems*
-  `(cl-containers))
+;;; ---------------------------------------------------------------------------
+
+(defun regenerate-websites ()
+  (loop for system in *metabang-common-lisp-systems* do
+        (regenerate-website (key system))))
 
 ;;; ---------------------------------------------------------------------------
 
-(defun regenerate-system (system-name)
+(defun regenerate-website (system-name &key (force? nil))
   (let ((lml2::*output-dir* (website-output-directory system-name))
         (*package* *package*)
         (*website-wild-source* (website-source-directory system-name))
-        (*website-output* (website-output-directory system-name)))
+        (*website-output* (website-output-directory system-name))
+        (*force-rebuild?* force?))
     (loop for file in (directory *website-wild-source*) do
           (regenerate-file (form-keyword (string-upcase (pathname-type file)))
                            file))))
@@ -63,11 +67,19 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :lml)) file)
-  (lml2::lml-load file))
+  (when (or *force-rebuild?*
+            (file-newer-than-file-p 
+             file (output-path-for-source file))) 
+    (lml2::lml-load file)))
 
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :css)) file)
+  (copy-source-to-output file))
+
+;;; ---------------------------------------------------------------------------
+
+(defmethod regenerate-file ((kind (eql :ico)) file)
   (copy-source-to-output file))
 
 ;;; ---------------------------------------------------------------------------
