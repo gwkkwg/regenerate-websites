@@ -80,6 +80,8 @@ DISCUSSION
                    :short-description "Miscellaneous math and statistics utilities")
              (:key :cl-variates :name "CL-Variates"
                    :short-description "Portable Random Number Generators and tools.")
+             (:key :lift :name "LIFT"
+                   :short-description "the LIsp Framework for Testing")
              (:key :metatilities :name "Metatilities" :sub-folder "cl-containers"
                    :short-description "Various useful utilities")
              (:key :moptilities :name "Moptilities" :sub-folder "cl-containers"
@@ -154,6 +156,30 @@ DISCUSSION
 (defun link (name &key title &allow-other-keys)
   (let ((link-info (item-at-1 *common-links* name)))
     (html ((:a :href (link-href link-info)) (:princ (or title (link-title link-info))))))) 
+
+;;; ---------------------------------------------------------------------------
+
+(defun home-folder (system)
+  (let* ((key (key system))
+         (folder (folder system))
+         (sub-folder (sub-folder system))
+         (root (or (root system) 
+                   "http://common-lisp.net/project/")))
+    ;;?? very hacky
+    (when sub-folder
+      (setf folder (format nil "~(~A/~A~)" sub-folder folder)))
+    
+    (set-link-info
+     key
+     :href (if (or (symbolp folder)
+                   (and (stringp folder) (plusp (size folder))))
+             (format nil "~A~(~A~)/" root folder)
+             (format nil "~A" root))
+     :title title)
+    (set-link-info
+     (form-keyword key "-TINAA")
+     :href (format nil "~A~(~A~)/documentation/" root folder)
+     :title title)))
 
 ;;; ---------------------------------------------------------------------------
 

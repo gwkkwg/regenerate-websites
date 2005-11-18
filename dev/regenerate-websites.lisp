@@ -79,6 +79,12 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
+(defmethod regenerate-file ((kind (eql :swf)) file)
+  ;; Flash animation
+  (copy-source-to-output file))
+
+;;; ---------------------------------------------------------------------------
+
 (defmethod regenerate-file ((kind (eql :ico)) file)
   (copy-source-to-output file))
 
