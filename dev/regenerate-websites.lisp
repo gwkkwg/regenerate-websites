@@ -38,9 +38,9 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
-(defun regenerate-websites ()
+(defun regenerate-websites (&key (force? nil))
   (loop for system in *metabang-common-lisp-systems* do
-        (regenerate-website (key system))))
+        (regenerate-website (key system) :force? force?)))
 
 ;;; ---------------------------------------------------------------------------
 

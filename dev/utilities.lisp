@@ -207,7 +207,7 @@ DISCUSSION
          :title title)
         (set-link-info
          (form-keyword key "-PACKAGE")
-         :href (format nil "~A~(~A/~A~).tar.gz" root folder key)
+         :href (format nil "~A~(~A/~A~)_latest.tar.gz" root folder key)
          :title title)
         (set-link-info
          (form-keyword key "-CLIKI")
