@@ -102,6 +102,16 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
+(defun lml-insert-file (file)
+  (if (probe-file file)
+      (with-open-file (in file :direction :input)
+        (do ((line (read-line in nil 'eof) (read-line in nil 'eof)))
+	    ((eq line 'eof))
+	  (html (lml-princ line))))
+    (format *trace-output* "Warning: unable to insert LML file ~S" file)))
+
+;;; ---------------------------------------------------------------------------
+
 (defun website-source-directory (system-name)
   (translate-logical-pathname
    (format nil "user-home:darcs;~(~A~);website;source;**;*.*" system-name)))
@@ -159,6 +169,7 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
+#+notyet
 (defun home-folder (system)
   (let* ((key (key system))
          (folder (folder system))

@@ -3,8 +3,8 @@
 (defun create-tinaa-documentation-for-system (system internal-too? &key 
                                                      (home system)
                                                      (package system))
-  #+Ignore (asdf:oos 'asdf:load-op system)
-  (ecs system)
+  (asdf:oos 'asdf:load-op system)
+  #+Ignore (ecs system)
   (document-system 'package package
                    (format nil "~(~A~):documentation;" home)
                    :symbol-kinds '(:external))
@@ -21,7 +21,7 @@
                        (cl-graph t)
                        (cl-mathstats t)
                        (cl-variates t)
-                       (basic-lift t "lift" lift)
+                       (lift t "lift" lift)
                        (moptilities t)
                        (metatilities t)
                        (tinaa t))
