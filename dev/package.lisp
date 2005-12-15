@@ -39,10 +39,6 @@ DISCUSSION
 (defpackage "REGENERATE-WEBSITES"
   (:use "COMMON-LISP" "METATILITIES" "LML2" "TINAA")
   (:nicknames "RW")
-   #+DIGITOOL
-  (:import-from "CCL" #:copy-file) 
-  #+OPENMCL
-  (:import-from "CCL" #:copy-file)
   (:export #:link 
            #:set-link-info
            #:*metabang-common-lisp-systems*

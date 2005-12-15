@@ -5,13 +5,14 @@
                                                      (package system))
   (asdf:oos 'asdf:load-op system)
   #+Ignore (ecs system)
-  (document-system 'package package
-                   (format nil "~(~A~):documentation;" home)
-                   :symbol-kinds '(:external))
-  (when internal-too?
-    (document-system 'package package 
-                     (format nil "~(~A~):documentation;all-symbols;" home)
-                     :symbol-kinds '(:external :internal))))
+  (let ((hack (format nil "user-home:darcs;~(~A~);dev" home)))
+    (document-system 'package package
+                     (format nil "~A;documentation;" hack)
+                     :symbol-kinds '(:external))
+    (when internal-too?
+      (document-system 'package package 
+                       (format nil "~A;documentation;all-symbols;" hack)
+                       :symbol-kinds '(:external :internal)))))
 
 ;;; ---------------------------------------------------------------------------
 
