@@ -69,7 +69,13 @@ DISCUSSION
   (sort
    (mapcar (lambda (data)
              (apply #'make-instance 'metabang-system data))
-           '((:key :asdf-system-connections :name "ASDF-System-Connections"
+           '((:key :ASDF-Binary-Locations :name "ASDF-Binary-Locations"
+                   :sub-folder "cl-containers"
+                   :short-description "Put Lisp binaries in their places")
+             (:key :asdf-install-tester :name "ASDF-Install-Tester"
+                   :sub-folder "cl-containers"
+                   :short-description "Test ASDF Installable systems automagically")
+             (:key :asdf-system-connections :name "ASDF-System-Connections"
                    :sub-folder "cl-containers"
                    :short-description "Link ASDF systems together declaratively")
              (:key :cl-graph :name "CL-Graph"
