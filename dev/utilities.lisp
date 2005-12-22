@@ -75,6 +75,9 @@ DISCUSSION
              (:key :asdf-install-tester :name "ASDF-Install-Tester"
                    :sub-folder "cl-containers"
                    :short-description "Test ASDF Installable systems automagically")
+             (:key :asdf-status :name "ASDF-Status"
+                   :sub-folder "cl-containers"
+                   :short-description "Display ASDF-Install-testers results nicely")
              (:key :asdf-system-connections :name "ASDF-System-Connections"
                    :sub-folder "cl-containers"
                    :short-description "Link ASDF systems together declaratively")
