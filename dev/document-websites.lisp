@@ -22,6 +22,7 @@
                        (cl-graph t)
                        (cl-mathstats t)
                        (cl-variates t)
+                       (defsystem-compatibility t)
                        (lift t "lift" lift)
                        (moptilities t)
                        (metatilities t)

@@ -89,6 +89,9 @@ DISCUSSION
                    :short-description "Miscellaneous math and statistics utilities")
              (:key :cl-variates :name "CL-Variates"
                    :short-description "Portable Random Number Generators and tools.")
+             (:key :defsystem-compatibility :name "defsystem-compatibility"
+                   :sub-folder "cl-containers"
+                   :short-description "Help different system definers to live together.")
              (:key :lift :name "LIFT"
                    :short-description "the LIsp Framework for Testing")
              (:key :metatilities :name "Metatilities" :sub-folder "cl-containers"
