@@ -37,7 +37,7 @@ DISCUSSION
 (in-package regenerate-websites)
 
 (defvar *common-links* (make-container 'simple-associative-container))
-(defvar *website-wild-source* nil)
+(defvar *website-source* nil)
 (defvar *website-output* nil)
 (defvar *force-rebuild?* nil)
 
@@ -72,8 +72,7 @@ DISCUSSION
            '((:key :ASDF-Binary-Locations :name "ASDF-Binary-Locations"
                    :sub-folder "cl-containers"
                    :short-description "Put Lisp binaries in their places")
-             (:key :asdf-install-tester :name "ASDF-Install-Tester"
-                   :sub-folder "cl-containers"
+             (:key :ait :name "ASDF-Install-Tester"
                    :short-description "Test ASDF Installable systems automagically")
              (:key :asdf-status :name "ASDF-Status"
                    :sub-folder "cl-containers"
@@ -89,6 +88,11 @@ DISCUSSION
                    :short-description "Miscellaneous math and statistics utilities")
              (:key :cl-variates :name "CL-Variates"
                    :short-description "Portable Random Number Generators and tools.")
+             
+             (:key :clnuplot :name "CLNUPlot"
+                   :sub-folder "cl-containers"
+                   :short-description "Common Lisp interface for GNUPlot")
+             
              (:key :defsystem-compatibility :name "defsystem-compatibility"
                    :sub-folder "cl-containers"
                    :short-description "Help different system definers to live together.")
@@ -114,6 +118,17 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
+(defun find-system (system-name)
+  (find system-name *metabang-common-lisp-systems* 
+        :key 'key))
+
+;;; ---------------------------------------------------------------------------
+
+(defun system-home (system-name)
+  (format nil "user-home:darcs;~(~A~);" system-name))
+
+;;; ---------------------------------------------------------------------------
+
 (defun lml-insert-file (file)
   (if (probe-file file)
       (with-open-file (in file :direction :input)
@@ -126,13 +141,23 @@ DISCUSSION
 
 (defun website-source-directory (system-name)
   (translate-logical-pathname
-   (format nil "user-home:darcs;~(~A~);website;source;**;*.*" system-name)))
+   (format nil "user-home:darcs;~(~A~);website;source;" system-name)))
 
 ;;; ---------------------------------------------------------------------------
 
 (defun website-output-directory (system-name)
   (translate-logical-pathname
    (format nil "user-home:darcs;~(~A~);website;output;" system-name)))
+
+;;; ---------------------------------------------------------------------------
+
+(defun changelog-source (system-name)
+  (let ((source (website-source-directory system-name)))
+    (make-pathname
+     :type "xml"
+     :name "changelog"
+   :directory (butlast (pathname-directory source)) 
+   :defaults source)))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -147,7 +172,7 @@ DISCUSSION
 (defun output-path-for-source (source-file)
   (translate-pathname
    source-file
-   *website-wild-source*
+   *website-source*
    (make-pathname 
     :directory `(,@(pathname-directory *website-output*) :wild-inferiors)
     :name :wild

@@ -20,7 +20,9 @@ DISCUSSION
   :maintainer "Gary Warren King <gwking@metabang.com>"
   :licence "Various license"
   :components ((:module "dev"
-                        :components ((:file "package")
+                        :components ((:static-file "notes.text")
+                                     
+                                     (:file "package")
                                      (:file "class-defs"
                                             :depends-on ("package"))
                                      (:file "macros"
@@ -28,8 +30,11 @@ DISCUSSION
                                      (:file "utilities"
                                             :depends-on ("package"))
                                      (:file "regenerate-websites"
-                                            :depends-on ("package" "utilities"))
+                                            :depends-on ("utilities"))
+                                     (:file "changelogs"
+                                            :depends-on ("utilities"))
                                      (:file "document-websites"
                                             :depends-on ("regenerate-websites")))))
-  :depends-on (metatilities-base lml2 tinaa))                    
+  
+  :depends-on (metatilities-base lml2 tinaa xmls cl-fad))                    
 

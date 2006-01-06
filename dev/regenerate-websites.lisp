@@ -47,12 +47,14 @@ DISCUSSION
 (defun regenerate-website (system-name &key (force? nil))
   (let ((lml2::*output-dir* (website-output-directory system-name))
         (*package* *package*)
-        (*website-wild-source* (website-source-directory system-name))
+        (*website-source* (website-source-directory system-name))
         (*website-output* (website-output-directory system-name))
         (*force-rebuild?* force?))
-    (loop for file in (directory *website-wild-source*) do
-          (regenerate-file (form-keyword (string-upcase (pathname-type file)))
-                           file))))
+    (cl-fad:walk-directory 
+     *website-source*
+     (lambda (file)
+       (regenerate-file 
+        (form-keyword (string-upcase (pathname-type file))) file)))))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -103,6 +105,10 @@ DISCUSSION
 (defmethod regenerate-file ((kind (eql :pdf)) file)
   (copy-source-to-output file))
 
+;;; ---------------------------------------------------------------------------
+
+(defmethod regenerate-file ((kind (eql :xml)) file)
+  (process-xml-file (pathname-name file) file))
 
 #|
 (in-package few)

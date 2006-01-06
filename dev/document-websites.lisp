@@ -18,10 +18,12 @@
 
 (defun create-tinaa-documentation-for-systems ()
   (loop for datum in '(
+                       (asdf-install-tester t)
                        (cl-containers t)
                        (cl-graph t)
                        (cl-mathstats t)
                        (cl-variates t)
+                       (clnuplot t)
                        (defsystem-compatibility t)
                        (lift t "lift" lift)
                        (moptilities t)
