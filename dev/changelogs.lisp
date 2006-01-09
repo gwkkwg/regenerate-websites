@@ -6,6 +6,16 @@
   (let ((repo (system-home system-name))
         (output (changelog-source system-name)))
     (kl:run-shell-command 
+     "darcs changes --xml --repo=file://~A > ~A" 
+     (translate-logical-pathname repo)
+     (translate-logical-pathname output))
+    output))
+
+#+Ignore
+(defun create-changelog (system-name)
+  (let ((repo (system-home system-name))
+        (output (changelog-source system-name)))
+    (format t
      "darcs changes --xml --repo=file://~A > ~A" repo output)
     output))
 
@@ -19,10 +29,14 @@
     (html-file-page ("changelog")
       (html
        (:HEAD (:TITLE (lml-format "Changelog for ~A" (name system)))
-              ((:LINK :REL "stylesheet" :TYPE "text/css" :HREF "style.css"))
-              ((:META :HTTP-EQUIV "Content-Type" :CONTENT "text/html; charset=ISO-8859-1")))
+	      (generate-shared-headers))
+       
        (:BODY
         ((:DIV :CLASS "header")
+         ((:SPAN :CLASS "logo")
+          ((:A :HREF "http://www.metabang.com/" :title "metabang.com")
+           ((:IMG :SRC "http://common-lisp.net/project/cl-containers/images/metabang-2.png"
+                  :TITLE "metabang.com" :width 100))))
          (:H2 (lml-format "Changelog for ~A" (name system)))
          (:H4 "Generated on "
               (lml-princ (metatilities:format-date "%A, %e %B %Y" (get-universal-time)))))
@@ -33,11 +47,16 @@
                 do
                 (html 
                  (:TR
-                  ((:TD :COLSPAN 2) (lml-format "~A" (local_date entry)))
-                  ((:TD :ALIGN "RIGHT") (lml-format "~A" (author entry))))
-                 (:TR
-                  (:TD)
-                  ((:TD :COLSPAN 2) (lml-format "~A" (description entry)))))))))))))
+                  ((:TD :CLASS "changelog-date") 
+                   (lml2::princ-safe-http (local_date entry)))
+                  ((:TD :CLASS "changelog-author") 
+		   (lml2::princ-safe-http (author entry))))
+                 ((:TR :CLASS "changelog-row")
+                  ((:TD :CLASS "changelog-description" :COLSPAN 2) 
+		   (lml2::princ-safe-http (description entry))))))))
+        
+        ((:DIV :CLASS "footer")
+         (generate-button-row)))))))
 
 ;;; ---------------------------------------------------------------------------
 

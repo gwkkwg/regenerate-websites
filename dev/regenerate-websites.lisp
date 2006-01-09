@@ -49,12 +49,18 @@ DISCUSSION
         (*package* *package*)
         (*website-source* (website-source-directory system-name))
         (*website-output* (website-output-directory system-name))
-        (*force-rebuild?* force?))
+        (*force-rebuild?* force?)
+        (*current-system* system-name))
     (cl-fad:walk-directory 
      *website-source*
      (lambda (file)
        (regenerate-file 
-        (form-keyword (string-upcase (pathname-type file))) file)))))
+        (form-keyword (string-upcase (pathname-type file))) file)))
+    ;;?? Need run-command...
+    #-DIGITOOL
+    (create-changelog system-name)
+    #-DIGITOOL
+    (create-changelog-page system-name)))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -77,6 +83,7 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :css)) file)
+  #+Ignore
   (copy-source-to-output file))
 
 ;;; ---------------------------------------------------------------------------
@@ -93,6 +100,11 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :png)) file)
+  (copy-source-to-output file))
+
+;;; ---------------------------------------------------------------------------
+
+(defmethod regenerate-file ((kind (eql :gif)) file)
   (copy-source-to-output file))
 
 ;;; ---------------------------------------------------------------------------

@@ -37,8 +37,10 @@ DISCUSSION
 (in-package common-lisp)
 
 (defpackage "REGENERATE-WEBSITES"
-  (:use "COMMON-LISP" "METATILITIES" "LML2" "TINAA")
+  (:use "COMMON-LISP" "METATILITIES" "LML2" "TINAA" "CL-FAD")
   (:nicknames "RW")
+  (:shadowing-import-from "METATILITIES"
+                          #:copy-file)
   (:export #:link 
            #:set-link-info
            #:*metabang-common-lisp-systems*

@@ -40,6 +40,7 @@ DISCUSSION
 (defvar *website-source* nil)
 (defvar *website-output* nil)
 (defvar *force-rebuild?* nil)
+(defvar *current-system* nil)
 
 (defclass* metabang-system ()
   ((name nil ir)
@@ -49,13 +50,22 @@ DISCUSSION
    (root nil ir)
    (cliki nil ir)
    (short-description nil ir)
-   (software? t ir)))
+   (software? t ir)
+   (build-documentation? nil ia)
+   (documentation-package nil ir)
+   (home-directory nil ir)))
 
 ;;; ---------------------------------------------------------------------------
 
 (defmethod initialize-instance :after ((object metabang-system) &key)
   (unless (folder object)
-    (setf (slot-value object 'folder) (key object))))
+    (setf (slot-value object 'folder) (key object)))
+  (unless (home-directory object)
+    (setf (slot-value object 'home-directory) 
+          (string-downcase (kl:ensure-string (key object)))))
+  (unless (documentation-package object)
+    (setf (slot-value object 'documentation-package)
+          (key object))))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -72,42 +82,70 @@ DISCUSSION
            '((:key :ASDF-Binary-Locations :name "ASDF-Binary-Locations"
                    :sub-folder "cl-containers"
                    :short-description "Put Lisp binaries in their places")
-             (:key :ait :name "ASDF-Install-Tester"
-                   :short-description "Test ASDF Installable systems automagically")
+           
+             (:key :asdf-install-tester
+                   :name "ASDF-Install-Tester"
+                   :short-description "Test ASDF Installable systems automagically"
+                   :build-documentation? t
+                   :home-directory "ait")
+             
              (:key :asdf-status :name "ASDF-Status"
                    :sub-folder "cl-containers"
                    :short-description "Display ASDF-Install-testers results nicely")
+             
              (:key :asdf-system-connections :name "ASDF-System-Connections"
                    :sub-folder "cl-containers"
                    :short-description "Link ASDF systems together declaratively")
-             (:key :cl-graph :name "CL-Graph"
-                   :short-description "Utilities and algorithms for Graph manipulation")
+             
              (:key :cl-containers :name "CL-Containers"
-                   :short-description "Common-Lisp's answer to STL and Smalltalk")
+                   :short-description "Common-Lisp's answer to STL and Smalltalk"
+                   :build-documentation? t)
+             
+             (:key :cl-graph :name "CL-Graph"
+                   :short-description "Utilities and algorithms for Graph manipulation"
+                   :build-documentation? t)
+             
              (:key :cl-mathstats :name "CL-MathStats"
-                   :short-description "Miscellaneous math and statistics utilities")
+                   :short-description "Miscellaneous math and statistics utilities"
+                   :build-documentation? t)
+             
              (:key :cl-variates :name "CL-Variates"
-                   :short-description "Portable Random Number Generators and tools.")
+                   :short-description "Portable Random Number Generators and tools."
+                   :build-documentation? t)
              
              (:key :clnuplot :name "CLNUPlot"
                    :sub-folder "cl-containers"
-                   :short-description "Common Lisp interface for GNUPlot")
+                   :short-description "Common Lisp interface for GNUPlot"
+                   :build-documentation? t)
              
              (:key :defsystem-compatibility :name "defsystem-compatibility"
                    :sub-folder "cl-containers"
-                   :short-description "Help different system definers to live together.")
+                   :short-description "Help different system definers to live together."
+                   :build-documentation? t)
+             
              (:key :lift :name "LIFT"
-                   :short-description "the LIsp Framework for Testing")
+                   :short-description "the LIsp Framework for Testing"
+                   :build-documentation? t
+                   :documentation-package lift)
+             
              (:key :metatilities :name "Metatilities" :sub-folder "cl-containers"
-                   :short-description "Various useful utilities")
+                   :short-description "Various useful utilities"
+                   :build-documentation? t)
+             
              (:key :moptilities :name "Moptilities" :sub-folder "cl-containers"
-                   :short-description "Implementation independent MOP utilities")
-             (:key :metabang.bind :name "metabang.bind" 
+                   :short-description "Implementation independent MOP utilities"
+                   :build-documentation? t)
+             
+             (:key :metabang-bind :name "metabang-bind" 
                    :sub-folder "cl-containers"
                    :cliki "bind"
-                   :short-description "Handle destructuring, multiple-values and let simultaneously")
+                   :short-description "Handle destructuring, multiple-values and let simultaneously"
+                   :build-documentation? t
+                   :home-directory "metabang.bind")
+             
              (:key :tinaa :name "TINAA"
-                   :short-description "Common-Lisp documentation tool")
+                   :short-description "Common-Lisp documentation tool"
+                   :build-documentation? t)
              
              (:key :metabang-site :name "metabang.com" 
                    :root "http://www.metabang.com/"
@@ -125,7 +163,12 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defun system-home (system-name)
-  (format nil "user-home:darcs;~(~A~);" system-name))
+  (let ((system (find-system system-name)))
+    (assert system
+	    nil
+	    "Error, cannot find system ~S" system-name)
+    ;;?? ugh
+    (format nil "user-home:darcs;~(~A~);" (home-directory system))))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -140,14 +183,18 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defun website-source-directory (system-name)
-  (translate-logical-pathname
-   (format nil "user-home:darcs;~(~A~);website;source;" system-name)))
+  (let ((system (find-system system-name))) 
+    (translate-logical-pathname
+     (format nil "user-home:darcs;~(~A~);website;source;"
+             (home-directory system)))))
 
 ;;; ---------------------------------------------------------------------------
 
 (defun website-output-directory (system-name)
-  (translate-logical-pathname
-   (format nil "user-home:darcs;~(~A~);website;output;" system-name)))
+  (let ((system (find-system system-name))) 
+    (translate-logical-pathname
+     (format nil "user-home:darcs;~(~A~);website;output;" 
+             (home-directory system)))))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -161,18 +208,24 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
-(defun copy-source-to-output (file)
-  (copy-file 
-   file
-   (output-path-for-source file)
-   :if-exists :overwrite))
+(defun copy-source-to-output (source)
+  (let ((target (output-path-for-source source)))
+    #+Ignore
+    (when (and (probe-file target)
+               (file-newer-than-file-p target source))
+      (cerror (format nil "Overwrite existing file with ~S" source)
+              'file-error :pathname target))
+    (copy-file source target :if-exists :supersede)))
 
 ;;; ---------------------------------------------------------------------------
 
 (defun output-path-for-source (source-file)
   (translate-pathname
    source-file
-   *website-source*
+   (make-pathname 
+    :directory `(,@(pathname-directory *website-source*) :wild-inferiors)
+    :name :wild
+    :type :wild)
    (make-pathname 
     :directory `(,@(pathname-directory *website-output*) :wild-inferiors)
     :name :wild
@@ -202,6 +255,8 @@ DISCUSSION
 
 (defun link (name &key title &allow-other-keys)
   (let ((link-info (item-at-1 *common-links* name)))
+    (assert link-info nil
+            "Unable to find link information for ~S" name)
     (html ((:a :href (link-href link-info)) (:princ (or title (link-title link-info))))))) 
 
 ;;; ---------------------------------------------------------------------------
@@ -313,3 +368,90 @@ DISCUSSION
 #+Test
 (link :metatilities)
 
+;;; ---------------------------------------------------------------------------
+;;; bits and pieces
+;;; ---------------------------------------------------------------------------
+
+(defun button-img-src (image-name)
+  (format nil "http://common-lisp.net/project/cl-containers/shared/buttons/~A"
+          image-name))
+
+;;; ---------------------------------------------------------------------------
+
+(defun generate-button-row (&optional text)
+  (html
+   ((:A :CLASS "nav" :HREF "http://validator.w3.org/check/referer" 
+        :title "xhtml1.1")
+    ((:IMG :SRC (button-img-src "xhtml.gif")
+           :WIDTH "80" :HEIGHT "15" :TITLE "valid xhtml button"
+           :alt "valid xhtml")))
+   
+   #+Ignore
+   ((:A :CLASS "nav" 
+        :HREF "http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fcommon-lisp.net~2Fproject~2Fcl-containers%2Fstyle.css" 
+        :title "css")
+    ((:IMG :SRC (button-img-src "cssvalid.gif")
+           :WIDTH "80" :HEIGHT "15" :TITLE "valid css button"
+           :alt "valid css")))
+   
+   ((:A :CLASS "nav" :HREF "http://www.catb.org/hacker-emblem/" :title "hacker")
+    ((:IMG :SRC (button-img-src "hacker.png") 
+           :WIDTH "80" :HEIGHT "15" :TITLE "hacker emblem"
+           :alt "hacker button")))
+   ((:A :CLASS "nav" :HREF "http://lml2.b9.com/" :title "lml2 powered")
+    ((:IMG :SRC (button-img-src "lml2-powered.png") 
+           :WIDTH "80" :HEIGHT "15" :TITLE "lml2 powered"
+           :alt "lml2 button")))
+   ((:A :CLASS "nav" :HREF "http://www.lisp.org/" :title "Association of Lisp Users")
+    ((:IMG :SRC (button-img-src "lambda-lisp.png") 
+           :WIDTH "80" :HEIGHT "15" :TITLE "ALU emblem"
+           :alt "ALU button")))
+   ((:A :CLASS "nav" :HREF "http://common-lisp.net/" :title "Common-Lisp.net")
+    ((:IMG :SRC (button-img-src "lisp-lizard.png") 
+           :WIDTH "80" :HEIGHT "15" :TITLE "Common-Lisp.net"
+           :alt "Common-Lisp.net button")))
+   
+   (when text
+     (html ((:span :class "footer-text") (lml-princ text))))))
+
+;;; ---------------------------------------------------------------------------
+
+(defun generate-two-line-header (title sub-title)
+  (html
+   ((:DIV :CLASS "header")
+    ((:SPAN :CLASS "logo")
+     ((:A :HREF "http://www.metabang.com/" :title "metabang.com")
+      ((:IMG :SRC "http://common-lisp.net/project/cl-containers/shared/metabang-2.png"
+             :TITLE "metabang.com" :width 100))))
+    (:H2 (lml-princ title))
+    (when sub-title
+      (html (:H4 (lml-princ sub-title)))))))
+
+;;; ---------------------------------------------------------------------------
+
+(defun generate-system-sidebar ()
+  (html
+   ((:TD :CLASS "system-links")
+    ((:UL :CLASS "system-links")
+     (:LI ((:A :HREF "#mailing-lists") "Mailing Lists"))
+     (:LI ((:A :HREF "#downloads") "Getting it"))
+     (let* ((documentation-file 
+             (merge-pathnames
+              (make-pathname :name "index"
+                             :type "html"
+                             :directory '(:relative "dev" "documentation"))
+              (dsc:system-source-directory *current-system*)))
+            (documentation-url "documentation/"))
+       (when (probe-file documentation-file)
+         (html
+          (:LI ((:A :HREF documentation-url :TITLE "documentation link") 
+                "Documentation")))))
+     (:LI ((:A :HREF "#news") "News"))
+     (:LI ((:A :HREF "changelog.html") "Changelog"))))))
+
+;;; ---------------------------------------------------------------------------
+
+(defun generate-shared-headers ()
+  (html
+   ((:LINK :REL "stylesheet" :TYPE "text/css" :HREF "http://common-lisp.net/project/cl-containers/shared/style.css"))
+   ((:META :HTTP-EQUIV "Content-Type" :CONTENT "text/html; charset=ISO-8859-1"))))
