@@ -23,15 +23,19 @@ DISCUSSION
                         :components ((:static-file "notes.text")
                                      
                                      (:file "package")
+                                     (:file "definitions"
+                                            :depends-on ("package"))
                                      (:file "class-defs"
                                             :depends-on ("package"))
                                      (:file "macros"
                                             :depends-on ("package"))
                                      (:file "utilities"
-                                            :depends-on ("package"))
+                                            :depends-on ("definitions"))
                                      (:file "regenerate-websites"
                                             :depends-on ("utilities"))
                                      (:file "changelogs"
+                                            :depends-on ("utilities"))
+                                     (:file "bits-and-pieces"
                                             :depends-on ("utilities"))
                                      (:file "document-websites"
                                             :depends-on ("regenerate-websites")))))

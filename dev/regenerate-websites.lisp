@@ -39,7 +39,8 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defun regenerate-websites (&key (force? nil))
-  (loop for system in *metabang-common-lisp-systems* do
+  (loop for system in *metabang-common-lisp-systems* 
+        when (build-website? system) do
         (regenerate-website (key system) :force? force?)))
 
 ;;; ---------------------------------------------------------------------------
@@ -83,7 +84,6 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :css)) file)
-  #+Ignore
   (copy-source-to-output file))
 
 ;;; ---------------------------------------------------------------------------
@@ -119,6 +119,19 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
+(defmethod regenerate-file ((kind (eql :asc)) file)
+  ;; PGP files
+  (copy-source-to-output file))
+
+;;; ---------------------------------------------------------------------------
+
+(defmethod regenerate-file ((kind (eql :html)) file)
+  ;; Take HTML directly
+  (copy-source-to-output file))
+
+;;; ---------------------------------------------------------------------------
+
+#+Ignore
 (defmethod regenerate-file ((kind (eql :xml)) file)
   (process-xml-file (pathname-name file) file))
 

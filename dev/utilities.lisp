@@ -36,11 +36,10 @@ DISCUSSION
 |#
 (in-package regenerate-websites)
 
-(defvar *common-links* (make-container 'simple-associative-container))
-(defvar *website-source* nil)
-(defvar *website-output* nil)
-(defvar *force-rebuild?* nil)
-(defvar *current-system* nil)
+(export '(asdf-packaging? 
+          metabang-software?))
+
+;;; ---------------------------------------------------------------------------
 
 (defclass* metabang-system ()
   ((name nil ir)
@@ -50,7 +49,12 @@ DISCUSSION
    (root nil ir)
    (cliki nil ir)
    (short-description nil ir)
-   (software? t ir)
+
+   ;;; descriptive, not-normative
+   (asdf-packaging? nil ir)
+   (metabang-software? t ir)
+   (build-website? t ir)
+   
    (build-documentation? nil ia)
    (documentation-package nil ir)
    (home-directory nil ir)))
@@ -75,7 +79,7 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
-(defparameter *metabang-common-lisp-systems*
+(setf *metabang-common-lisp-systems*
   (sort
    (mapcar (lambda (data)
              (apply #'make-instance 'metabang-system data))
@@ -116,7 +120,8 @@ DISCUSSION
              (:key :clnuplot :name "CLNUPlot"
                    :sub-folder "cl-containers"
                    :short-description "Common Lisp interface for GNUPlot"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :metabang-software? nil)
              
              (:key :defsystem-compatibility :name "defsystem-compatibility"
                    :sub-folder "cl-containers"
@@ -150,7 +155,47 @@ DISCUSSION
              (:key :metabang-site :name "metabang.com" 
                    :root "http://www.metabang.com/"
                    :folder ""
-                   :software? nil)))
+                   :metabang-software? nil)
+             
+             (:key :closer-mop :name "Closer to MOP" 
+                   :root "http://common-lisp.net/project/closer/closer-mop.html"
+                   :short-description "A compatibility layer to paper over Common-Lisp implmentation difference in MOP support."
+                   :folder ""
+                   :metabang-software? nil
+                   :asdf-packaging? t
+                   :build-website? nil)
+             
+             (:key :mop-features :name "MOP Feature Tests" 
+                   :root "http://common-lisp.net/project/closer/features.html"
+                   :folder ""
+                   :short-description "Meta-object Protocol evaluator to test a Common-Lisp implementation's MOP support."
+                   :metabang-software? nil
+                   :asdf-packaging? t
+                   :build-website? nil)
+             
+             (:key :contextl :name "ContextL" 
+                   :root "http://common-lisp.net/project/closer/contextl.html"
+                   :folder ""
+                   :short-description "a CLOS extension for Context-oriented Programming."
+                   :metabang-software? nil
+                   :asdf-packaging? t
+                   :build-website? nil)
+             
+             (:key :lw-compat :name "LW-Compat" 
+                   :root "http://common-lisp.net/project/closer/downloads/"
+                   :short-description "Utility functions from the LispWorks library used in the Closer project"
+                   :folder ""
+                   :metabang-software? nil
+                   :asdf-packaging? t
+                   :build-website? nil)
+             
+             (:key :portable-threads :name "Portable Threads"
+                   :root "http://gbbopen.org/hyperdoc/ref-portable-thread-entities.html"
+                   :short-description "A Portable Thread Library originally developed for GBBOpen."
+                   :folder ""
+                   :metabang-software? nil
+                   :asdf-packaging? t
+                   :build-website? nil)))
    #'string-lessp
    :key #'key))
 
@@ -326,7 +371,7 @@ DISCUSSION
 
 (set-link-info
  :gpg-gwking
- :href (format nil "http://www.metabang.com/gwking-public-key.html")
+ :href (format nil "http://www.metabang.com/public-key-gwking.html")
  :title "Gary King's Public Key")
 
 (set-link-info
@@ -358,6 +403,38 @@ DISCUSSION
  :asdf
  :href "http://www.cliki.net/asdf"
  :title "ASDF")
+
+(set-link-info
+ :cliki
+ :href "http://www.cliki.net/"
+ :title "CLiki")
+
+(set-link-info
+ :mit-license
+ :href "http://www.opensource.org/licenses/mit-license.php"
+ :title "MIT License")
+
+(set-link-info
+ :mop
+ :href "http://www.lisp.org/mop/index.html"
+ :title "MOP")
+
+(set-link-info
+ :gnuplot
+ :href "http://www.gnuplot.info/"
+ :title "GNUPlot")
+
+(set-link-info
+ :unclog
+ :href "http://www.metabang.com/unclog/"
+ :title "unCLog")
+
+(set-link-info
+ :polliblog
+ :href "http://www.metabang.com/polliblog/"
+ :title "Polliblog")
+
+
 
 
 
@@ -422,7 +499,8 @@ DISCUSSION
     ((:SPAN :CLASS "logo")
      ((:A :HREF "http://www.metabang.com/" :title "metabang.com")
       ((:IMG :SRC "http://common-lisp.net/project/cl-containers/shared/metabang-2.png"
-             :TITLE "metabang.com" :width 100))))
+             :TITLE "metabang.com" :width 100
+             :ALT "Metabang Logo"))))
     (:H2 (lml-princ title))
     (when sub-title
       (html (:H4 (lml-princ sub-title)))))))
