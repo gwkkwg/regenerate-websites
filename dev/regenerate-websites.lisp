@@ -41,7 +41,8 @@ DISCUSSION
 (defun regenerate-websites (&key (force? nil))
   (loop for system in *metabang-common-lisp-systems* 
         when (build-website? system) do
-        (regenerate-website (key system) :force? force?)))
+       (print system) 
+       (regenerate-website (key system) :force? force?)))
 
 ;;; ---------------------------------------------------------------------------
 

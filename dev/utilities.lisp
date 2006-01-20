@@ -85,7 +85,8 @@ DISCUSSION
              (apply #'make-instance 'metabang-system data))
            '((:key :ASDF-Binary-Locations :name "ASDF-Binary-Locations"
                    :sub-folder "cl-containers"
-                   :short-description "Put Lisp binaries in their places")
+                   :short-description "Put Lisp binaries in their places"
+	           :build-documentation? t)
            
              (:key :asdf-install-tester
                    :name "ASDF-Install-Tester"
@@ -99,7 +100,8 @@ DISCUSSION
              
              (:key :asdf-system-connections :name "ASDF-System-Connections"
                    :sub-folder "cl-containers"
-                   :short-description "Link ASDF systems together declaratively")
+                   :short-description "Link ASDF systems together declaratively"
+	      :build-documentation? t)
              
              (:key :cl-containers :name "CL-Containers"
                    :short-description "Common-Lisp's answer to STL and Smalltalk"
