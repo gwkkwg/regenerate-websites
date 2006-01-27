@@ -90,9 +90,12 @@ DISCUSSION
            
              (:key :asdf-install-tester
                    :name "ASDF-Install-Tester"
+                   :root "http://common-lisp.net/project/ait/"
                    :short-description "Test ASDF Installable systems automagically"
                    :build-documentation? t
-                   :home-directory "ait")
+                   :home-directory "ait"
+                   :folder ""
+                   )
              
              (:key :asdf-status :name "ASDF-Status"
                    :sub-folder "cl-containers"
@@ -308,31 +311,6 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
-#+notyet
-(defun home-folder (system)
-  (let* ((key (key system))
-         (folder (folder system))
-         (sub-folder (sub-folder system))
-         (root (or (root system) 
-                   "http://common-lisp.net/project/")))
-    ;;?? very hacky
-    (when sub-folder
-      (setf folder (format nil "~(~A/~A~)" sub-folder folder)))
-    
-    (set-link-info
-     key
-     :href (if (or (symbolp folder)
-                   (and (stringp folder) (plusp (size folder))))
-             (format nil "~A~(~A~)/" root folder)
-             (format nil "~A" root))
-     :title title)
-    (set-link-info
-     (form-keyword key "-TINAA")
-     :href (format nil "~A~(~A~)/documentation/" root folder)
-     :title title)))
-
-;;; ---------------------------------------------------------------------------
-
 (loop for system in *metabang-common-lisp-systems* do 
       (let* ((key (key system))
             (folder (folder system))
@@ -344,20 +322,23 @@ DISCUSSION
         ;;?? very hacky
         (when sub-folder
           (setf folder (format nil "~(~A/~A~)" sub-folder folder)))
+        ;;?? slightly hacky
+        (setf folder 
+              (if (or (symbolp folder)
+                      (and (stringp folder) (plusp (size folder))))
+                (format nil "~A~(~A~)/" root folder)
+                (format nil "~A" root)))
         (set-link-info
          key
-         :href (if (or (symbolp folder)
-                       (and (stringp folder) (plusp (size folder))))
-                 (format nil "~A~(~A~)/" root folder)
-                 (format nil "~A" root))
+         :href folder
          :title title)
         (set-link-info
          (form-keyword key "-TINAA")
-         :href (format nil "~A~(~A~)/documentation/" root folder)
+         :href (format nil "~Adocumentation/" folder)
          :title title)
         (set-link-info
          (form-keyword key "-PACKAGE")
-         :href (format nil "~A~(~A/~A~)_latest.tar.gz" root folder key)
+         :href (format nil "~A~(~A~)_latest.tar.gz" folder key)
          :title title)
         (set-link-info
          (form-keyword key "-CLIKI")
