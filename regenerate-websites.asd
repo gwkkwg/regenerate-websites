@@ -37,6 +37,8 @@ DISCUSSION
                                             :depends-on ("utilities"))
                                      (:file "bits-and-pieces"
                                             :depends-on ("utilities"))
+                                     (:file "commands"
+                                            :depends-on ("utilities"))
                                      (:file "document-websites"
                                             :depends-on ("regenerate-websites")))))
   

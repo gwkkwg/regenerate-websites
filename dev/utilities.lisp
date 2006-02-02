@@ -86,7 +86,7 @@ DISCUSSION
            '((:key :ASDF-Binary-Locations :name "ASDF-Binary-Locations"
                    :sub-folder "cl-containers"
                    :short-description "Put Lisp binaries in their places"
-	           :build-documentation? t)
+	           :build-documentation? nil)
            
              (:key :asdf-install-tester
                    :name "ASDF-Install-Tester"
@@ -138,7 +138,8 @@ DISCUSSION
                    :build-documentation? t
                    :documentation-package lift)
              
-             (:key :metatilities :name "Metatilities" :sub-folder "cl-containers"
+             (:key :metatilities :name "Metatilities" 
+                   :sub-folder "cl-containers"
                    :short-description "Various useful utilities"
                    :build-documentation? t)
              
@@ -200,7 +201,14 @@ DISCUSSION
                    :folder ""
                    :metabang-software? nil
                    :asdf-packaging? t
-                   :build-website? nil)))
+                   :build-website? nil)
+             
+             (:key :asdf-install :name "ASDF-Install"
+                   :short-description "A tool for downloading and installing lisp libraries and packages."
+                   :sub-folder "cl-containers"
+                   :metabang-software? nil
+                   :asdf-packaging? t
+                   :build-website? t)))
    #'string-lessp
    :key #'key))
 
@@ -353,6 +361,11 @@ DISCUSSION
  :title "Gary King")
 
 (set-link-info
+ :homepage-gwking
+ :href (format nil "http://www.metabang.com/about-gwking.html")
+ :title "Gary King")
+
+(set-link-info
  :gpg-gwking
  :href (format nil "http://www.metabang.com/public-key-gwking.html")
  :title "Gary King's Public Key")
@@ -381,6 +394,11 @@ DISCUSSION
  :asdf-install
  :href "http://www.cliki.net/asdf-install"
  :title "ASDF-Install")
+
+(set-link-info
+ :mk-defsystem
+ :href "http://www.cliki.net/mk-defsystem"
+ :title "MK-Defsystem")
 
 (set-link-info
  :asdf
@@ -476,14 +494,16 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
-(defun generate-two-line-header (title sub-title)
+(defun generate-two-line-header (title sub-title &key (logo? t))
   (html
    ((:DIV :CLASS "header")
-    ((:SPAN :CLASS "logo")
-     ((:A :HREF "http://www.metabang.com/" :title "metabang.com")
-      ((:IMG :SRC "http://common-lisp.net/project/cl-containers/shared/metabang-2.png"
-             :TITLE "metabang.com" :width 100
-             :ALT "Metabang Logo"))))
+    (when logo?
+      (html
+       ((:SPAN :CLASS "logo")
+        ((:A :HREF "http://www.metabang.com/" :title "metabang.com")
+         ((:IMG :SRC "http://common-lisp.net/project/cl-containers/shared/metabang-2.png"
+                :TITLE "metabang.com" :width 100
+                :ALT "Metabang Logo"))))))
     (:H2 (lml-princ title))
     (when sub-title
       (html (:H4 (lml-princ sub-title)))))))
@@ -492,8 +512,8 @@ DISCUSSION
 
 (defun generate-system-sidebar ()
   (html
-   ((:TD :CLASS "system-links")
-    ((:UL :CLASS "system-links")
+   ((:DIV :CLASS "system-links")
+    (:UL
      (:LI ((:A :HREF "#mailing-lists") "Mailing Lists"))
      (:LI ((:A :HREF "#downloads") "Getting it"))
      (let* ((documentation-file 
