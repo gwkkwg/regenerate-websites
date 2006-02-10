@@ -1,26 +1,15 @@
 (in-package rw)
 
-(defun create-tinaa-documentation-for-system (system internal-too? &key 
+(defun create-tinaa-documentation-for-system (system &key 
                                                      (home system)
                                                      (package system))
   (asdf:oos 'asdf:load-op system)
-  #+Ignore 
-  (ecs system)
   (document-system 'package package
                    (make-pathname 
                     :host "user-home"
                     :directory `(:absolute "darcs" 
                                            ,(string-downcase (kl:ensure-string home))
-                                           "dev" "documentation"))
-                   :symbol-kinds '(:external))
-  (when internal-too?
-    (document-system 'package package 
-                     (make-pathname 
-                      :host "user-home"
-                      :directory `(:absolute "darcs" 
-                                             ,(string-downcase (kl:ensure-string home))
-                                             "dev" "documentation" "all-symbols"))
-                     :symbol-kinds '(:external :internal))))
+                                           "dev" "documentation"))))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -29,11 +18,10 @@
         when (build-documentation? system) do
 
         (bind:bind ((system-name (key system))
-                    (internal-too? t)
-                    (documation-package (documentation-package system))
+		    (documation-package (documentation-package system))
                     (home (home-directory system)))
           (create-tinaa-documentation-for-system
-           system-name internal-too? 
+           system-name
            :package documation-package
            :home home))))
 
