@@ -163,6 +163,12 @@ DISCUSSION
                    :folder ""
                    :metabang-software? nil)
              
+             (:key :metabang-local :name "metabang.com" 
+                   :root "http://metabang.gotdns.com/"
+                   :folder ""
+                   :home-directory "metabang-site;metabang-local"
+                   :metabang-software? nil)             
+             
              (:key :closer-mop :name "Closer to MOP" 
                    :root "http://common-lisp.net/project/closer/closer-mop.html"
                    :short-description "A compatibility layer to paper over Common-Lisp implmentation difference in MOP support."
@@ -434,6 +440,11 @@ DISCUSSION
  :polliblog
  :href "http://www.metabang.com/polliblog/"
  :title "Polliblog")
+
+(set-link-info
+ :widgets
+ :href "http://www.metabang.com/widgets/index.html"
+ :title "Widgets")
 
 
 

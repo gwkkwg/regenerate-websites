@@ -32,6 +32,8 @@
        
        (make-link :gpg-page
                   "public-key-gwking.html" "PGP Key" "PGP Public Key")
+       (make-link :widgets-page
+                  "widgets.html" "Widgets" "Our Dashboard Widgets")
        (make-link :about-gwking-page
                   "contact.html" "Contact" "Contact information"))
        

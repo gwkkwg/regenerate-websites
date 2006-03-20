@@ -53,9 +53,12 @@ DISCUSSION
         (*website-output* (website-output-directory system-name))
         (*force-rebuild?* force?)
         (*current-system* system-name))
+    (format t "~%Source: ~A~%Output: ~A"
+	    *website-source* *website-output*)
     (cl-fad:walk-directory 
      *website-source*
      (lambda (file)
+       (print file)
        (regenerate-file 
         (form-keyword (string-upcase (pathname-type file))) file)))
     ;;?? Need run-command...
@@ -77,6 +80,11 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :lml)) file)
+  (format t "~%~A ~A~%    ~A"
+	  (file-newer-than-file-p 
+	   file (output-path-for-source file)) 
+	  file
+	  (output-path-for-source file))
   (when (or *force-rebuild?*
             (file-newer-than-file-p 
              file (output-path-for-source file))) 
@@ -85,6 +93,9 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :css)) file)
+  (copy-source-to-output file))
+
+(defmethod regenerate-file ((kind (eql :xml)) file)
   (copy-source-to-output file))
 
 ;;; ---------------------------------------------------------------------------
@@ -106,6 +117,9 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :gif)) file)
+  (copy-source-to-output file))
+
+(defmethod regenerate-file ((kind (eql :zip)) file)
   (copy-source-to-output file))
 
 ;;; ---------------------------------------------------------------------------
