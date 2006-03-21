@@ -152,7 +152,7 @@ DISCUSSION
                    :cliki "bind"
                    :short-description "Handle destructuring, multiple-values and let simultaneously"
                    :build-documentation? t
-                   :home-directory "metabang.bind")
+                   :home-directory "metabang-bind")
              
              (:key :tinaa :name "TINAA"
                    :short-description "Common-Lisp documentation tool"
