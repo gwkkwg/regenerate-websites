@@ -138,6 +138,10 @@ DISCUSSION
                    :build-documentation? t
                    :documentation-package lift)
              
+             (:key :metacopy :name "metacopy"
+                   :short-description "Shallow and deep copy toolkit"
+                   :build-documentation? t)
+
              (:key :metatilities :name "Metatilities" 
                    :sub-folder "cl-containers"
                    :short-description "Various useful utilities"
