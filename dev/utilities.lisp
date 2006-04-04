@@ -162,7 +162,7 @@ DISCUSSION
                    :short-description "Common-Lisp documentation tool"
                    :build-documentation? t)
              
-             (:key :metabang-site :name "metabang.com" 
+             (:key :metasite :name "metabang.com" 
                    :root "http://www.metabang.com/"
                    :folder ""
                    :metabang-software? nil)

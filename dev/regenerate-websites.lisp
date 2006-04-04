@@ -88,7 +88,8 @@ DISCUSSION
   (when (or *force-rebuild?*
             (file-newer-than-file-p 
              file (output-path-for-source file))) 
-    (lml2::lml-load file)))
+    (let ((lml2::*output-dir* (output-path-for-source file)))
+      (lml2::lml-load file))))
 
 ;;; ---------------------------------------------------------------------------
 
