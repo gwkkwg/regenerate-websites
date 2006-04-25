@@ -170,7 +170,7 @@ DISCUSSION
              (:key :metabang-local :name "metabang.com" 
                    :root "http://metabang.gotdns.com/"
                    :folder ""
-                   :home-directory "metabang-site;metabang-local"
+                   :home-directory "metasite;metabang-local"
                    :metabang-software? nil)             
              
              (:key :closer-mop :name "Closer to MOP" 

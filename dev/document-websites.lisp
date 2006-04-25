@@ -4,7 +4,7 @@
                                                      (home system)
                                                      (package system))
   (asdf:oos 'asdf:load-op system)
-  (document-system 'package package
+  (document-system 'asdf-system package
                    (make-pathname 
                     :host "user-home"
                     :directory `(:absolute "darcs" 
