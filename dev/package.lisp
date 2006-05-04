@@ -46,6 +46,8 @@ DISCUSSION
            #:*metabang-common-lisp-systems*
            #:regenerate-website
            #:regenerate-websites
+	   #:create-tinaa-documentation-for-system
+	   #:create-tinaa-documentation-for-systems
            #:software?
            #:key
            #:short-description))
