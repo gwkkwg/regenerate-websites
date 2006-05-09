@@ -57,7 +57,8 @@ DISCUSSION
    
    (build-documentation? nil ia)
    (documentation-package nil ir)
-   (home-directory nil ir)))
+   (home-directory nil ir)
+   (darcs-repo nil ir)))
 
 ;;; ---------------------------------------------------------------------------
 
@@ -86,7 +87,8 @@ DISCUSSION
            '((:key :ASDF-Binary-Locations :name "ASDF-Binary-Locations"
                    :sub-folder "cl-containers"
                    :short-description "Put Lisp binaries in their places"
-	           :build-documentation? nil)
+	           :build-documentation? nil
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/asdf-binary-locations/darcs/asdf-binary-locations")
            
              (:key :asdf-install-tester
                    :name "ASDF-Install-Tester"
@@ -95,72 +97,91 @@ DISCUSSION
                    :build-documentation? t
                    :home-directory "ait"
                    :folder ""
-                   )
+                   :darcs-repo "http://common-lisp.net/project/tinaa/darcs/ait")
              
              (:key :asdf-status :name "ASDF-Status"
                    :sub-folder "cl-containers"
-                   :short-description "Display ASDF-Install-testers results nicely")
+                   :short-description "Display ASDF-Install-testers results nicely"
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/asdf-status/darcs/asdf-status")
              
              (:key :asdf-system-connections :name "ASDF-System-Connections"
                    :sub-folder "cl-containers"
                    :short-description "Link ASDF systems together declaratively"
-	      :build-documentation? t)
+	           :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/asdf-system-connections/darcs/asdf-system-connections")
              
              (:key :cl-containers :name "CL-Containers"
                    :short-description "Common-Lisp's answer to STL and Smalltalk"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/darcs/cl-containers")
              
              (:key :cl-graph :name "CL-Graph"
                    :short-description "Utilities and algorithms for Graph manipulation"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-graph/darcs/cl-graph")
+             
+             (:key :cl-markdown :name "CL-Markdown"
+                   :short-description "Common Lisp version of the Markdown text processing langauge"
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-markdown/darcs/cl-markdown")
              
              (:key :cl-mathstats :name "CL-MathStats"
                    :short-description "Miscellaneous math and statistics utilities"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-mathstats/darcs/cl-mathstats")
              
              (:key :cl-variates :name "CL-Variates"
                    :short-description "Portable Random Number Generators and tools."
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-variates/darcs/cl-variates")
              
              (:key :clnuplot :name "CLNUPlot"
                    :sub-folder "cl-containers"
                    :short-description "Common Lisp interface for GNUPlot"
                    :build-documentation? t
-                   :metabang-software? nil)
+                   :metabang-software? nil
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/clnuplot/darcs/clnuplot")
              
              (:key :defsystem-compatibility :name "defsystem-compatibility"
                    :sub-folder "cl-containers"
                    :short-description "Help different system definers to live together."
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/defsystem-compatibility/darcs/defsystem-compatibility")
              
              (:key :lift :name "LIFT"
                    :short-description "the LIsp Framework for Testing"
                    :build-documentation? t
-                   :documentation-package lift)
+                   :documentation-package lift
+                   :darcs-repo "http://common-lisp.net/project/lift/darcs/lift")
              
              (:key :metacopy :name "metacopy"
                    :short-description "Shallow and deep copy toolkit"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/metacopy/darcs/metacopy")
 
              (:key :metatilities :name "Metatilities" 
                    :sub-folder "cl-containers"
                    :short-description "Various useful utilities"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/metatilities/darcs/metatilities")
              
              (:key :moptilities :name "Moptilities" :sub-folder "cl-containers"
                    :short-description "Implementation independent MOP utilities"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/moptilities/darcs/moptilities")
              
              (:key :metabang-bind :name "metabang-bind" 
                    :sub-folder "cl-containers"
                    :cliki "bind"
                    :short-description "Handle destructuring, multiple-values and let simultaneously"
                    :build-documentation? t
-                   :home-directory "metabang-bind")
+                   :home-directory "metabang-bind"
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/metabang-bind/darcs/metabang-bind")
              
              (:key :tinaa :name "TINAA"
                    :short-description "Common-Lisp documentation tool"
-                   :build-documentation? t)
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/tinaa/darcs/tinaa")
              
              (:key :metasite :name "metabang.com" 
                    :root "http://www.metabang.com/"
@@ -179,7 +200,8 @@ DISCUSSION
                    :folder ""
                    :metabang-software? nil
                    :asdf-packaging? t
-                   :build-website? nil)
+                   :build-website? nil
+                   :darcs-repo "http://common-lisp.net/project/closer/repos/closer-mop")
              
              (:key :mop-features :name "MOP Feature Tests" 
                    :root "http://common-lisp.net/project/closer/features.html"
@@ -187,7 +209,8 @@ DISCUSSION
                    :short-description "Meta-object Protocol evaluator to test a Common-Lisp implementation's MOP support."
                    :metabang-software? nil
                    :asdf-packaging? t
-                   :build-website? nil)
+                   :build-website? nil
+                   :darcs-repo "http://common-lisp.net/project/closer/repos/mop-features")
              
              (:key :contextl :name "ContextL" 
                    :root "http://common-lisp.net/project/closer/contextl.html"
@@ -195,7 +218,8 @@ DISCUSSION
                    :short-description "a CLOS extension for Context-oriented Programming."
                    :metabang-software? nil
                    :asdf-packaging? t
-                   :build-website? nil)
+                   :build-website? nil
+                   :darcs-repo "http://common-lisp.net/project/closer/repos/contextl")
              
              (:key :lw-compat :name "LW-Compat" 
                    :root "http://common-lisp.net/project/closer/downloads/"
@@ -203,7 +227,8 @@ DISCUSSION
                    :folder ""
                    :metabang-software? nil
                    :asdf-packaging? t
-                   :build-website? nil)
+                   :build-website? nil
+                   :darcs-repo "http://common-lisp.net/project/closer/repos/lw-compat")
              
              (:key :portable-threads :name "Portable Threads"
                    :root "http://gbbopen.org/hyperdoc/ref-portable-thread-entities.html"
@@ -551,3 +576,75 @@ DISCUSSION
   (html
    ((:LINK :REL "stylesheet" :TYPE "text/css" :HREF "http://common-lisp.net/project/cl-containers/shared/style.css"))
    ((:META :HTTP-EQUIV "Content-Type" :CONTENT "text/html; charset=ISO-8859-1"))))
+
+;;; ---------------------------------------------------------------------------
+
+(defun smallest-system-set (system)
+  (let ((all-dependencies (dsc:collect-system-dependencies system)))
+    (loop for unneeded =
+          (find-if 
+           (lambda (sub-system)
+             (some (lambda (other-sub-system)
+                     (and (not (eq sub-system other-sub-system))
+                          (member sub-system 
+                                  (dsc:collect-system-dependencies other-sub-system))))
+                   all-dependencies))
+           all-dependencies)
+          while unneeded do
+          (print unneeded)
+          (print all-dependencies)
+          (setf all-dependencies (remove unneeded all-dependencies)))
+    all-dependencies))
+
+#+Ignore
+(defun make-systems-graph (system)
+  (let ((g (make-container 'cl-graph:graph-container 
+                           :default-edge-type :directed)))
+    (labels ((add-edges (system)
+               (dsc:map-system-dependencies 
+                system
+                (lambda (sub-system)
+                  (cl-graph:add-edge-between-vertexes 
+                   g system sub-system)
+                  (add-edges sub-system)))))
+      (add-edges system))
+    g))
+
+#+Example
+(smallest-system-set 'tinaa)
+                          
+(defun generate-darcs-commands (project)
+  (let ((result nil))
+    (html
+     (:pre
+      (mapc 
+       (lambda (system)
+         (let ((system (intern (string-upcase (symbol-name system)) :keyword)))
+           (if (find-system system)
+             (html (lml-format "~%darcs get \"~A\"" (darcs-repo (find-system system))))
+             (push system result))))
+         (append (list project) (smallest-system-set project))))
+     (when result
+       (flet ((make-project-link (project)
+                (html ((:a :href (format nil "http://www.cliki.net/~(~A~)" project))
+                       (lml-princ project)))))
+         (html
+          (:p (lml-princ project) " also requires the following other ASDF-Installable projects: "
+              (cond ((= (length result) 1)
+                     (make-project-link (first result)))
+                    ((= (length result) 2)
+                     (make-project-link (first result)) 
+                     (html " and ")
+                     (make-project-link (second result)))
+                    (t 
+                     (loop for i from 0 to (- (length result) 2) do
+                           (make-project-link (nth i result))
+                           (html ", "))
+                     (html " and ")
+                     (make-project-link (first (last result)))))
+              (html "."))))))
+    (values result)))
+
+#+Example
+(generate-darcs-commands 'metatilities)
+   
