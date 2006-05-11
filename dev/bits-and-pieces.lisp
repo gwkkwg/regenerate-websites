@@ -1,4 +1,4 @@
-(in-package rw)
+(in-package #:rw)
 
 (defgeneric output-footer (site current-page)
   (:documentation ""))

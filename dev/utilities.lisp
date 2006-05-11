@@ -34,7 +34,7 @@ Author: Gary King
 DISCUSSION
 
 |#
-(in-package regenerate-websites)
+(in-package #:regenerate-websites)
 
 (export '(asdf-packaging? 
           metabang-software?))

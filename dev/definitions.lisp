@@ -1,4 +1,4 @@
-(in-package regenerate-websites)
+(in-package #:regenerate-websites)
 
 (defvar *common-links* (make-container 'simple-associative-container))
 (defvar *website-source* nil)

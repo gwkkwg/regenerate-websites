@@ -34,7 +34,7 @@ Author: Gary King
 DISCUSSION
 
 |#
-(in-package common-lisp)
+(in-package #:common-lisp)
 
 (defpackage #:regenerate-websites
   (:use #:common-lisp #:metatilities #:lml2 #:tinaa #:cl-fad)

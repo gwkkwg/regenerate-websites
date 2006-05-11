@@ -40,7 +40,7 @@
 "Billy-Pilgrim:Users:gwking:darcs:metabang-site:website:source:index.lml" 
 
 openmcl --eval "(asdf:oos 'asdf:load-op 'asdf-install-tester)"
-(in-package ait)
+(in-package #:ait)
 (setf *asdf-install-directory* "user-home:darcs;asdf-install;asdf-install;")
 (asdf-test :systems *metabang-systems* :lisps '(:clisp :sbcl :openmcl :allegro))
 

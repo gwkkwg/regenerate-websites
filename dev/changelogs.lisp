@@ -1,6 +1,6 @@
 ;;; -*- Mode: Lisp -*-
 
-(in-package regenerate-websites)
+(in-package #:regenerate-websites)
 
 (defun create-changelog (system-name)
   (let ((repo (system-home system-name))

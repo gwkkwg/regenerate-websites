@@ -34,7 +34,7 @@ Author: Gary King
 DISCUSSION
 
 |#
-(in-package regenerate-websites)
+(in-package #:regenerate-websites)
 
 ;;; ---------------------------------------------------------------------------
 
@@ -152,7 +152,7 @@ DISCUSSION
   (process-xml-file (pathname-name file) file))
 
 #|
-(in-package few)
+(in-package #:few)
 
 #+Ignore
 ;; suck site up and output as LML

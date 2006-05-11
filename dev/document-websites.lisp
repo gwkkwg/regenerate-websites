@@ -1,4 +1,4 @@
-(in-package rw)
+(in-package #:rw)
 
 (defun create-tinaa-documentation-for-system (system &key 
                                                      (home system)
