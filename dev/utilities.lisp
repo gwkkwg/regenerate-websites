@@ -183,6 +183,11 @@ DISCUSSION
                    :build-documentation? t
                    :darcs-repo "http://common-lisp.net/project/tinaa/darcs/tinaa")
              
+             (:key :trivial-shell :name "trivial-shell"
+                   :short-description "One shell to run them all"
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/trivial-shell/darcs/trivial-shell")
+             
              (:key :metasite :name "metabang.com" 
                    :root "http://www.metabang.com/"
                    :folder ""
@@ -240,7 +245,6 @@ DISCUSSION
              
              (:key :asdf-install :name "ASDF-Install"
                    :short-description "A tool for downloading and installing lisp libraries and packages."
-                   :sub-folder "cl-containers"
                    :metabang-software? nil
                    :asdf-packaging? t
                    :build-website? t)))
