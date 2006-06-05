@@ -55,6 +55,7 @@ DISCUSSION
         (*current-system* system-name))
     (format t "~%Source: ~A~%Output: ~A"
 	    *website-source* *website-output*)
+    (ensure-directories-exist *website-output*)
     (cl-fad:walk-directory 
      *website-source*
      (lambda (file)

@@ -178,6 +178,12 @@ DISCUSSION
                    :home-directory "metabang-bind"
                    :darcs-repo "http://common-lisp.net/project/cl-containers/metabang-bind/darcs/metabang-bind")
              
+             (:key :simple-http :name "Simple HTTP" 
+                   :sub-folder "cl-containers"
+                   :short-description "Not as trivial as trivial HTTP, but still simple..."
+                   :build-documentation? t
+                   :darcs-repo "http://common-lisp.net/project/cl-containers/simple-http/darcs/simple-http")
+             
              (:key :tinaa :name "TINAA"
                    :short-description "Common-Lisp documentation tool"
                    :build-documentation? t
