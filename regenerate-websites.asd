@@ -42,5 +42,5 @@ DISCUSSION
                                      (:file "document-websites"
                                             :depends-on ("regenerate-websites")))))
   
-  :depends-on (metatilities-base lml2 tinaa xmls cl-fad))                    
+  :depends-on (metatilities-base lml2 tinaa xmls cl-fad cl-markdown))                    
 

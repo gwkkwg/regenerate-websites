@@ -94,7 +94,18 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
+(defmethod regenerate-file ((kind (eql :md)) file)
+  (when (or *force-rebuild?*
+            (file-newer-than-file-p 
+             file (output-path-for-source file))) 
+    (markdown:markdown file :stream (output-path-for-source file) :format :html)))
+
+;;; ---------------------------------------------------------------------------
+
 (defmethod regenerate-file ((kind (eql :css)) file)
+  (copy-source-to-output file))
+
+(defmethod regenerate-file ((kind (eql :vcf)) file)
   (copy-source-to-output file))
 
 (defmethod regenerate-file ((kind (eql :xml)) file)

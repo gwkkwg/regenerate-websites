@@ -9,13 +9,13 @@
 ;;; ---------------------------------------------------------------------------
 
 (defmethod output-footer ((site (eql :metabang)) current-page) 
-  (flet ((make-link (name link text title)
+  (flet ((make-link (name link text title &optional (class "link"))
            (if (eq current-page name)
              (html
-              ((:SPAN :class "link") (lml-princ text)))
+              ((:SPAN :class class) text))
              (html
-              ((:SPAN :class "link")
-               ((:A :HREF link :title (lml-princ title))
+              ((:SPAN :class class)
+               ((:A :HREF link :title title)
                 (lml-princ text)))))))
     (html
      ((:DIV :CLASS "footer")
@@ -35,7 +35,7 @@
        (make-link :widgets-page
                   "widgets.html" "Widgets" "Our Dashboard Widgets")
        (make-link :about-gwking-page
-                  "contact.html" "Contact" "Contact information"))
+                  "contact.html" "Contact" "Contact information" "last-link"))
        
       ((:DIV :CLASS "copyright")
        "Page updated: "
@@ -47,10 +47,10 @@
 
 (defmethod output-headers ((site (eql :metabang)) title)
   (html
-   (:HEAD 
-    (:TITLE (lml-princ title))
-    ((:LINK :REL "shortcut icon" :HREF "favicon.ico"))
-    ((:LINK :REL "icon" :HREF "favicon.ico"))
-    ((:META :HTTP-EQUIV "content-type" :CONTENT "text/html; charset=iso-8859-1"))
-    ((:LINK :REL "stylesheet" :HREF "style.css" :TYPE "text/css")))))
+   (:head 
+    (:title (lml-princ title))
+    ((:link :rel "shortcut icon" :href "favicon.ico"))
+    ((:link :rel "icon" :href "favicon.ico"))
+    ((:meta :http-equiv "content-type" :content "text/html; charset=iso-8859-1"))
+    ((:link :rel "stylesheet" :href "style.css" :type "text/css")))))
   
