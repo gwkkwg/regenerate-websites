@@ -256,6 +256,13 @@ DISCUSSION
                          :build-documentation? t
                          :darcs-repo "http://common-lisp.net/project/cl-containers/defsystem-compatibility/darcs/defsystem-compatibility")
                    
+                   (:key :e8el :name "Enterprise Lisp"
+                         :root "http://www.enterpriselisp.com/"
+                         :home-directory "enterpriselisp"
+                         :metabang-software? nil
+                         :build-documentation? nil
+                         )
+                   
                    (:key :lift :name "LIFT"
                          :short-description "the LIsp Framework for Testing"
                          :build-documentation? t
