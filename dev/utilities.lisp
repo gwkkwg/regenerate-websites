@@ -98,6 +98,7 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
+;;?? also in tinaa
 (defun lml-insert-file (file)
   (if (probe-file file)
       (with-open-file (in file :direction :input)
@@ -327,6 +328,15 @@ DISCUSSION
                          :folder ""
                          :home-directory "metasite;metabang-local"
                          :metabang-software? nil)             
+                   
+                   (:key :cl-html-parse :name "Common Lisp HTML Parser" 
+                         :short-description "A portable version of Franz's Opensource HTML Parser"
+                         :metabang-software? nil
+                         :asdf-packaging? t
+                         :build-website? nil
+                         :build-documentation? t
+                         :darcs-repo "http://metabang.gotdns.com/software/system-check/darcs/system-check"
+                         :e8el? t)
                    
                    (:key :closer-mop :name "Closer to MOP" 
                          :root "http://common-lisp.net/project/closer/closer-mop.html"
