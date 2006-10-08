@@ -164,6 +164,8 @@ DISCUSSION
   (let ((type (pathname-type source-file)))
     (cond ((string-equal type "lml")
            "html")
+	  ((string-equal type "md")
+           "html")
           (t
            type))))
 
