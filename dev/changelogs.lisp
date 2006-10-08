@@ -76,18 +76,29 @@
 
 (defun read-changelog (file)
   (when (plusp (kl:file-size file))
-    (let* ((xmls (xmls:parse file))
-	   (entries (collect-elements 
-		     ;; the first two elements of posts aren't tags
-		     (cddr xmls)
-		     :transform
-		     (lambda (entry)
-		       (let ((properties (second entry))
-			     (name-value (third entry)))
-			 (apply #'make-instance
-				'changelog-entry
-				:description (third name-value)
-				(loop for (name value) in properties nconc
-				     (list (form-keyword (string-upcase name)) value))))))))
-      entries)))
+    (let ((close? nil))
+      (setf file (etypecase file
+		   (stream file)
+		   (string file)
+		   (pathname (setf close? t)
+			     (open file :direction :input))))
+      (unwind-protect
+	   (let* ((xmls (xmls:parse file))
+		  (entries 
+		   (collect-elements 
+		    ;; the first two elements of posts aren't tags
+		    (cddr xmls)
+		    :transform
+		    (lambda (entry)
+		      (let ((properties (second entry))
+			    (name-value (third entry)))
+			(apply #'make-instance
+			       'changelog-entry
+			       :description (third name-value)
+			       (loop for (name value) in properties nconc
+				    (list (form-keyword (string-upcase name))
+					  value))))))))
+	     entries)
+	(when close? 
+	  (close file))))))
 
