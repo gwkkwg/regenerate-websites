@@ -2,7 +2,7 @@
 
 #| simple-header
 
-Copyright 2004 - 2005 metabang.com (www.metabang.com), 
+Copyright 2004 - 2006 metabang.com (www.metabang.com), 
 55 Harkness Road, Pelham, MA 01002
 Gary Warren King
 
@@ -61,7 +61,12 @@ DISCUSSION
      (lambda (file)
        (print file)
        (regenerate-file 
-        (form-keyword (string-upcase (pathname-type file))) file)))
+        (form-keyword (string-upcase (pathname-type file))) file))
+     :test
+     (lambda (file)
+       (let ((filetype (pathname-type file)))
+	 (and filetype
+	      (not (char= #\~ (aref filetype (1- (length filetype)))))))))
     ;;?? Need run-command...
     #-DIGITOOL
     (create-changelog system-name)
@@ -81,6 +86,7 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :lml)) file)
+  #+(or)
   (format t "~%~A ~A~%    ~A"
 	  (file-newer-than-file-p 
 	   file (output-path-for-source file)) 
@@ -95,10 +101,19 @@ DISCUSSION
 ;;; ---------------------------------------------------------------------------
 
 (defmethod regenerate-file ((kind (eql :md)) file)
+  #+(or)
+  (format t "~%~s  ~s"
+	  (file-newer-than-file-p 
+	   file (output-path-for-source file)) 
+	  (output-path-for-source file))
   (when (or *force-rebuild?*
             (file-newer-than-file-p 
              file (output-path-for-source file))) 
-    (markdown:markdown file :stream (output-path-for-source file) :format :html)))
+    ;;?? hack (?) to handle markdown extensions...
+    (let ((*package* (find-package :cl-markdown)))
+      (markdown:markdown file :stream
+			 (output-path-for-source file) :format :html
+			 :additional-extensions '(docs today now)))))
 
 ;;; ---------------------------------------------------------------------------
 
