@@ -32,34 +32,34 @@
     (when entries
       (html-file-page ("changelog")
 	(html
-	 (:HEAD (:TITLE (lml-format "Changelog for ~A" (name system)))
+	 (:head (:title (lml-format "Changelog for ~A" (name system)))
 		(generate-shared-headers))
        
-	 (:BODY
-	  ((:DIV :CLASS "header")
-	   ((:SPAN :CLASS "logo")
-	    ((:A :HREF "http://www.metabang.com/" :title "metabang.com")
-	     ((:IMG :SRC "http://common-lisp.net/project/cl-containers/images/metabang-2.png"
-		    :TITLE "metabang.com" :width 100))))
-	   (:H2 (lml-format "Changelog for ~A" (name system)))
-	   (:H4 "Generated on "
+	 (:body
+	  ((:div :class "header")
+	   ((:span :class "logo")
+	    ((:a :href "http://www.metabang.com/" :title "metabang.com")
+	     ((:img :src "http://common-lisp.net/project/cl-containers/images/metabang-2.png"
+		    :title "metabang.com" :width 100))))
+	   (:h2 (lml-format "Changelog for ~A" (name system)))
+	   (:h4 "Generated on "
 		(lml-princ (metatilities:format-date "%A, %e %B %Y" (get-universal-time)))))
         
-	  ((:DIV :CLASS "changelog")
-	   ((:TABLE)
+	  ((:div :class "changelog")
+	   ((:table)
 	    (loop for entry in entries
 	       do
 	       (html 
-		(:TR
-		 ((:TD :CLASS "changelog-date") 
+		(:tr
+		 ((:td :class "changelog-date") 
 		  (lml2::princ-safe-http (local_date entry)))
-		 ((:TD :CLASS "changelog-author") 
+		 ((:td :class "changelog-author") 
 		  (lml2::princ-safe-http (author entry))))
-		((:TR :CLASS "changelog-row")
-		 ((:TD :CLASS "changelog-description" :COLSPAN 2) 
+		((:tr :class "changelog-row")
+		 ((:td :class "changelog-description" :colspan 2) 
 		  (lml2::princ-safe-http (description entry))))))))
         
-	  ((:DIV :CLASS "footer")
+	  ((:div :class "footer")
 	   (generate-button-row))))))))
 
 ;;; ---------------------------------------------------------------------------
@@ -96,7 +96,8 @@
 			       'changelog-entry
 			       :description (third name-value)
 			       (loop for (name value) in properties nconc
-				    (list (form-keyword (string-upcase name))
+				    ;;?? probable case issues
+				    (list (form-keyword name)
 					  value))))))))
 	     entries)
 	(when close? 

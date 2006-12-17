@@ -12,22 +12,22 @@
   (flet ((make-link (name link text title &optional (class "link"))
            (if (eq current-page name)
              (html
-              ((:SPAN :class class) text))
+              ((:span :class class) text))
              (html
-              ((:SPAN :class class)
-               ((:A :HREF link :title title)
+              ((:span :class class)
+               ((:a :href link :title title)
                 (lml-princ text)))))))
     (html
-     ((:DIV :CLASS "footer")
+     ((:div :class "footer")
       
-      ((:DIV :CLASS "links")
+      ((:div :class "links")
        (make-link :about-page "about.html" "About" "About metabang.com")
        (make-link :open-source-software-page
                   "open-source-software.html" "Software" "Open source software")
        
        #+Ignore
-       ((:SPAN :class "link")
-        ((:A :HREF "http://www.metabang.com/quotes.html" :TITLE "Quotes we like")
+       ((:span :class "link")
+        ((:a :href "http://www.metabang.com/quotes.html" :title "Quotes we like")
          "Quotes"))
        
        (make-link :gpg-page
@@ -37,11 +37,11 @@
        (make-link :about-gwking-page
                   "contact.html" "Contact" "Contact information" "last-link"))
        
-      ((:DIV :CLASS "copyright")
+      ((:div :class "copyright")
        "Page updated: "
-       ((:SPAN :CLASS "date") (lml-princ (format-date "%B %e, %Y" (get-universal-time))))
+       ((:span :class "date") (lml-princ (format-date "%B %e, %Y" (get-universal-time))))
        ", Copyright  2004 - " (lml-princ (format-date "%Y" (get-universal-time))) " -- " 
-       ((:A :HREF "mailto:gwking@metabang.com") "Gary Warren King"))))))
+       ((:a :href "mailto:gwking@metabang.com") "Gary Warren King"))))))
 
 ;;; ---------------------------------------------------------------------------
 

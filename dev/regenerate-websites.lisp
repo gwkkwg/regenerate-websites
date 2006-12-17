@@ -62,16 +62,20 @@ DISCUSSION
        (print file)
        (regenerate-file 
         (form-keyword (string-upcase (pathname-type file))) file))
-     :test
-     (lambda (file)
-       (let ((filetype (pathname-type file)))
-	 (and filetype
-	      (not (char= #\~ (aref filetype (1- (length filetype)))))))))
+     :test (complement 'ignore-file-p))
     ;;?? Need run-command...
     #-DIGITOOL
     (create-changelog system-name)
     #-DIGITOOL
     (create-changelog-page system-name)))
+
+
+(defun ignore-file-p (file)
+  (let ((filetype (pathname-type file))
+	(filename (pathname-name file)))
+    (or (not filetype)
+	(char= #\~ (aref filetype (1- (length filetype))))
+	(string= ".#" (subseq filename 0 2)))))
 
 ;;; ---------------------------------------------------------------------------
 

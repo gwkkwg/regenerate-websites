@@ -1,8 +1,8 @@
-;;;-*- Mode: Lisp; Package: REGENERATE-WEBSITES -*-
+;;;-*- Mode: Lisp; Package: regenerate-websites -*-
 
 #| simple-header
 
-Copyright 2004 - 2005 metabang.com (www.metabang.com), 
+Copyright 2004 - 2006 metabang.com (www.metabang.com), 
 55 Harkness Road, Pelham, MA 01002
 Gary Warren King
 
@@ -536,35 +536,35 @@ DISCUSSION
 
 (defun generate-button-row (&optional text)
   (html
-   ((:A :CLASS "nav" :HREF "http://validator.w3.org/check/referer" 
+   ((:a :class "nav" :href "http://validator.w3.org/check/referer" 
         :title "xhtml1.1")
-    ((:IMG :SRC (button-img-src "xhtml.gif")
-           :WIDTH "80" :HEIGHT "15" :TITLE "valid xhtml button"
+    ((:img :src (button-img-src "xhtml.gif")
+           :width "80" :height "15" :title "valid xhtml button"
            :alt "valid xhtml")))
    
    #+Ignore
-   ((:A :CLASS "nav" 
-        :HREF "http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fcommon-lisp.net~2Fproject~2Fcl-containers%2Fstyle.css" 
+   ((:a :class "nav" 
+        :href "http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fcommon-lisp.net~2Fproject~2Fcl-containers%2Fstyle.css" 
         :title "css")
-    ((:IMG :SRC (button-img-src "cssvalid.gif")
-           :WIDTH "80" :HEIGHT "15" :TITLE "valid css button"
+    ((:img :src (button-img-src "cssvalid.gif")
+           :width "80" :height "15" :title "valid css button"
            :alt "valid css")))
    
-   ((:A :CLASS "nav" :HREF "http://www.catb.org/hacker-emblem/" :title "hacker")
-    ((:IMG :SRC (button-img-src "hacker.png") 
-           :WIDTH "80" :HEIGHT "15" :TITLE "hacker emblem"
+   ((:a :class "nav" :href "http://www.catb.org/hacker-emblem/" :title "hacker")
+    ((:img :src (button-img-src "hacker.png") 
+           :width "80" :height "15" :title "hacker emblem"
            :alt "hacker button")))
-   ((:A :CLASS "nav" :HREF "http://lml2.b9.com/" :title "lml2 powered")
-    ((:IMG :SRC (button-img-src "lml2-powered.png") 
-           :WIDTH "80" :HEIGHT "15" :TITLE "lml2 powered"
+   ((:a :class "nav" :HREF "http://lml2.b9.com/" :title "lml2 powered")
+    ((:img :src (button-img-src "lml2-powered.png") 
+           :width "80" :height "15" :title "lml2 powered"
            :alt "lml2 button")))
-   ((:A :CLASS "nav" :HREF "http://www.lisp.org/" :title "Association of Lisp Users")
-    ((:IMG :SRC (button-img-src "lambda-lisp.png") 
-           :WIDTH "80" :HEIGHT "15" :TITLE "ALU emblem"
+   ((:a :class "nav" :href "http://www.lisp.org/" :title "Association of Lisp Users")
+    ((:img :src (button-img-src "lambda-lisp.png") 
+           :width "80" :height "15" :title "ALU emblem"
            :alt "ALU button")))
-   ((:A :CLASS "nav" :HREF "http://common-lisp.net/" :title "Common-Lisp.net")
-    ((:IMG :SRC (button-img-src "lisp-lizard.png") 
-           :WIDTH "80" :HEIGHT "15" :TITLE "Common-Lisp.net"
+   ((:a :class "nav" :href "http://common-lisp.net/" :title "Common-Lisp.net")
+    ((:img :src (button-img-src "lisp-lizard.png") 
+           :width "80" :height "15" :title "Common-Lisp.net"
            :alt "Common-Lisp.net button")))
    (when text
      (html ((:span :class "footer-text") (lml-princ text))))))
@@ -573,26 +573,26 @@ DISCUSSION
 
 (defun generate-two-line-header (title sub-title &key (logo? t))
   (html
-   ((:DIV :CLASS "header")
+   ((:div :class "header")
     (when logo?
       (html
-       ((:SPAN :CLASS "logo")
-        ((:A :HREF "http://www.metabang.com/" :title "metabang.com")
-         ((:IMG :SRC "http://common-lisp.net/project/cl-containers/shared/metabang-2.png"
-                :TITLE "metabang.com" :width 100
-                :ALT "Metabang Logo"))))))
-    (:H2 (lml-princ title))
+       ((:span :class "logo")
+        ((:a :href "http://www.metabang.com/" :title "metabang.com")
+         ((:img :src "http://common-lisp.net/project/cl-containers/shared/metabang-2.png"
+                :title "metabang.com" :width 100
+                :alt "Metabang Logo"))))))
+    (:h2 (lml-princ title))
     (when sub-title
-      (html (:H4 (lml-princ sub-title)))))))
+      (html (:h4 (lml-princ sub-title)))))))
 
 ;;; ---------------------------------------------------------------------------
 
 (defun generate-system-sidebar ()
   (html
-   ((:DIV :CLASS "system-links")
-    (:UL
-     (:LI ((:A :HREF "#mailing-lists") "Mailing Lists"))
-     (:LI ((:A :HREF "#downloads") "Getting it"))
+   ((:div :class "system-links")
+    (:ul
+     (:li ((:a :href "#mailing-lists") "Mailing Lists"))
+     (:li ((:a :href "#downloads") "Getting it"))
      (let* ((documentation-file 
              (merge-pathnames
               (make-pathname :name "index"
@@ -602,17 +602,17 @@ DISCUSSION
             (documentation-url "documentation/"))
        (when (probe-file documentation-file)
          (html
-          (:LI ((:A :HREF documentation-url :TITLE "documentation link") 
+          (:li ((:a :href documentation-url :title "documentation link") 
                 "Documentation")))))
-     (:LI ((:A :HREF "#news") "News"))
-     (:LI ((:A :HREF "changelog.html") "Changelog"))))))
+     (:li ((:a :href "#news") "News"))
+     (:li ((:a :href "changelog.html") "Changelog"))))))
 
 ;;; ---------------------------------------------------------------------------
 
 (defun generate-shared-headers ()
   (html
-   ((:LINK :REL "stylesheet" :TYPE "text/css" :HREF "http://common-lisp.net/project/cl-containers/shared/style.css"))
-   ((:META :HTTP-EQUIV "Content-Type" :CONTENT "text/html; charset=ISO-8859-1"))))
+   ((:link :rel "stylesheet" :type "text/css" :href "http://common-lisp.net/project/cl-containers/shared/style.css"))
+   ((:meta :http-equiv "Content-Type" :content "text/html; charset=ISO-8859-1"))))
 
 ;;; ---------------------------------------------------------------------------
 
