@@ -1,39 +1,5 @@
 ;;;-*- Mode: Lisp; Package: regenerate-websites -*-
 
-#| simple-header
-
-Copyright 2004 - 2006 metabang.com (www.metabang.com), 
-55 Harkness Road, Pelham, MA 01002
-Gary Warren King
-
-MIT Open Source License:
-
-http://www.opensource.org/licenses/mit-license.php
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-Author: Gary King
-
-DISCUSSION
-
-|#
 (in-package #:regenerate-websites)
 
 (export '(asdf-packaging? 
@@ -195,7 +161,7 @@ DISCUSSION
         (sort
          (mapcar (lambda (data)
                    (apply #'make-instance 'metabang-system data))
-                 '((:key :ASDF-Binary-Locations :name "ASDF-Binary-Locations"
+                 '((:key :asdf-binary-locations :name "ASDF-Binary-Locations"
                          :sub-folder "cl-containers"
                          :short-description "Put Lisp binaries in their places"
 	                 :build-documentation? nil
@@ -272,24 +238,27 @@ DISCUSSION
                          :documentation-package lift
                          :darcs-repo "http://common-lisp.net/project/lift/darcs/lift")
                    
+                   (:key :log5 :name "log5"
+                         :short-description "Common Lisp Logging - It's one more"
+                         :build-documentation? t
+                         :darcs-repo "http://common-lisp.net/project/log5/darcs/log5")
+
                    (:key :metacopy :name "metacopy"
                          :short-description "Shallow and deep copy toolkit"
                          :build-documentation? t
                          :darcs-repo "http://common-lisp.net/project/metacopy/darcs/metacopy")
                    
                    (:key :metatilities :name "Metatilities" 
-                         :sub-folder "cl-containers"
                          :short-description "Various useful utilities"
                          :build-documentation? t
-                         :darcs-repo "http://common-lisp.net/project/cl-containers/metatilities/darcs/metatilities")
+                         :darcs-repo "http://common-lisp.net/project/metatilities/darcs/metatilities")
                    
-                   (:key :moptilities :name "Moptilities" :sub-folder "cl-containers"
+                   (:key :moptilities :name "Moptilities"
                          :short-description "Implementation independent MOP utilities"
                          :build-documentation? t
-                         :darcs-repo "http://common-lisp.net/project/cl-containers/moptilities/darcs/moptilities")
+                         :darcs-repo "http://common-lisp.net/project/moptilities/darcs/moptilities")
                    
                    (:key :metabang-bind :name "metabang-bind" 
-                         :sub-folder "cl-containers"
                          :cliki "bind"
                          :short-description "Handle destructuring, multiple-values and let simultaneously"
                          :build-documentation? t
@@ -340,43 +309,7 @@ DISCUSSION
                          :darcs-repo "http://metabang.gotdns.com/software/system-check/darcs/system-check"
                          :e8el? t)
                    
-                   (:key :closer-mop :name "Closer to MOP" 
-                         :root "http://common-lisp.net/project/closer/closer-mop.html"
-                         :short-description "A compatibility layer to paper over Common-Lisp implmentation difference in MOP support."
-                         :folder ""
-                         :metabang-software? nil
-                         :asdf-packaging? t
-                         :build-website? nil
-                         :darcs-repo "http://common-lisp.net/project/closer/repos/closer-mop")
-                   
-                   (:key :mop-features :name "MOP Feature Tests" 
-                         :root "http://common-lisp.net/project/closer/features.html"
-                         :folder ""
-                         :short-description "Meta-object Protocol evaluator to test a Common-Lisp implementation's MOP support."
-                         :metabang-software? nil
-                         :asdf-packaging? t
-                         :build-website? nil
-                         :darcs-repo "http://common-lisp.net/project/closer/repos/mop-features")
-                   
-                   (:key :contextl :name "ContextL" 
-                         :root "http://common-lisp.net/project/closer/contextl.html"
-                         :folder ""
-                         :short-description "a CLOS extension for Context-oriented Programming."
-                         :metabang-software? nil
-                         :asdf-packaging? t
-                         :build-website? nil
-                         :darcs-repo "http://common-lisp.net/project/closer/repos/contextl")
-                   
-                   (:key :lw-compat :name "LW-Compat" 
-                         :root "http://common-lisp.net/project/closer/downloads/"
-                         :short-description "Utility functions from the LispWorks library used in the Closer project"
-                         :folder ""
-                         :metabang-software? nil
-                         :asdf-packaging? t
-                         :build-website? nil
-                         :darcs-repo "http://common-lisp.net/project/closer/repos/lw-compat")
-                   
-                   (:key :portable-threads :name "Portable Threads"
+		   (:key :portable-threads :name "Portable Threads"
                          :root "http://gbbopen.org/hyperdoc/ref-portable-thread-entities.html"
                          :short-description "A Portable Thread Library originally developed for GBBOpen."
                          :folder ""
@@ -414,15 +347,15 @@ DISCUSSION
            :href folder
            :title title)
           (set-link-info
-           (form-keyword key "-TINAA")
+           (form-keyword key "-tinaa")
            :href (format nil "~Adocumentation/" folder)
            :title title)
           (set-link-info
-           (form-keyword key "-PACKAGE")
+           (form-keyword key "-package")
            :href (format nil "~A~(~A~)_latest.tar.gz" folder key)
            :title title)
           (set-link-info
-           (form-keyword key "-CLIKI")
+           (form-keyword key "-cliki")
            :href (format nil "http://www.cliki.net/~(~A~)" cliki)
            :title title))))
 
@@ -587,7 +520,7 @@ DISCUSSION
 
 ;;; ---------------------------------------------------------------------------
 
-(defun generate-system-sidebar ()
+(defun generate-system-sidebar (&key (news? t))
   (html
    ((:div :class "system-links")
     (:ul
@@ -604,7 +537,7 @@ DISCUSSION
          (html
           (:li ((:a :href documentation-url :title "documentation link") 
                 "Documentation")))))
-     (:li ((:a :href "#news") "News"))
+     (when news? (html (:li ((:a :href "#news") "News"))))
      (:li ((:a :href "changelog.html") "Changelog"))))))
 
 ;;; ---------------------------------------------------------------------------
@@ -685,3 +618,41 @@ DISCUSSION
 #+Example
 (generate-darcs-commands 'metatilities)
    
+
+#+(or)
+'(
+  (:key :closer-mop :name "Closer to MOP" 
+   :root "http://common-lisp.net/project/closer/closer-mop.html"
+   :short-description "A compatibility layer to paper over Common-Lisp implmentation difference in MOP support."
+   :folder ""
+   :metabang-software? nil
+   :asdf-packaging? t
+   :build-website? nil
+   :darcs-repo "http://common-lisp.net/project/closer/repos/closer-mop")
+                   
+  (:key :mop-features :name "MOP Feature Tests" 
+   :root "http://common-lisp.net/project/closer/features.html"
+   :folder ""
+   :short-description "Meta-object Protocol evaluator to test a Common-Lisp implementation's MOP support."
+   :metabang-software? nil
+   :asdf-packaging? t
+   :build-website? nil
+   :darcs-repo "http://common-lisp.net/project/closer/repos/mop-features")
+                   
+  (:key :contextl :name "ContextL" 
+   :root "http://common-lisp.net/project/closer/contextl.html"
+   :folder ""
+   :short-description "a CLOS extension for Context-oriented Programming."
+   :metabang-software? nil
+   :asdf-packaging? t
+   :build-website? nil
+   :darcs-repo "http://common-lisp.net/project/closer/repos/contextl")
+                   
+  (:key :lw-compat :name "LW-Compat" 
+   :root "http://common-lisp.net/project/closer/downloads/"
+   :short-description "Utility functions from the LispWorks library used in the Closer project"
+   :folder ""
+   :metabang-software? nil
+   :asdf-packaging? t
+   :build-website? nil
+   :darcs-repo "http://common-lisp.net/project/closer/repos/lw-compat"))
