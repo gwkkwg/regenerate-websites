@@ -37,7 +37,7 @@ DISCUSSION
 (in-package #:common-lisp)
 
 (defpackage #:regenerate-websites
-  (:use #:common-lisp #:metatilities #:lml2 #:tinaa #:cl-fad)
+  (:use #:common-lisp #:metatilities #:lml2 #:tinaa)
   (:nicknames #:rw)
   (:shadowing-import-from #:metatilities
                           #:copy-file)

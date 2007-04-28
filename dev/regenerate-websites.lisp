@@ -18,6 +18,17 @@
     (format t "~%Source: ~A~%Output: ~A"
 	    *website-source* *website-output*)
     (ensure-directories-exist *website-output*)
+    (mapc 
+     (lambda (file)
+       (unless (ignore-file-p file)
+	 (print file)
+	 (regenerate-file 
+	  (form-keyword (pathname-type file)) file)))
+     (directory (merge-pathnames
+		 *website-source*
+		 (make-pathname :name :wild :type :wild
+				:directory '(:relative :wild-inferiors)))))
+    #+(or)
     (cl-fad:walk-directory 
      *website-source*
      (lambda (file)

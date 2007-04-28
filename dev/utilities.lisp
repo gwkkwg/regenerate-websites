@@ -187,6 +187,13 @@
 	                 :build-documentation? t
                          :darcs-repo "http://common-lisp.net/project/cl-containers/asdf-system-connections/darcs/asdf-system-connections")
                    
+                   (:key :bundler :name "Bundler"
+                         :sub-folder "bundler"
+                         :short-description "Bundle many ASDF systems into one"
+                         :build-documentation? nil
+                         :metabang-software? t
+                         :darcs-repo "http://common-lisp.net/project/cl-containers/bundler/darcs/bundler")
+                   
                    (:key :cl-containers :name "CL-Containers"
                          :short-description "Common-Lisp's answer to STL and Smalltalk"
                          :build-documentation? t
