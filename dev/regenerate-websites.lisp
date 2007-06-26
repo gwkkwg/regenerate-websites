@@ -1,4 +1,4 @@
-;;;-*- Mode: Lisp; Package: REGENERATE-WEBSITES -*-
+;;;-*- Mode: Lisp; Package: regenerate-websites -*-
 
 (in-package #:regenerate-websites)
 
@@ -9,6 +9,7 @@
        (regenerate-website (key system) :force? force?)))
 
 (defun regenerate-website (system-name &key (force? nil))
+  (asdf:oos 'asdf:load-op system-name)
   (let ((lml2::*output-dir* (website-output-directory system-name))
         (*package* *package*)
         (*website-source* (website-source-directory system-name))
@@ -77,12 +78,16 @@
   (when (or *force-rebuild?*
             (file-newer-than-file-p 
              file (output-path-for-source file))) 
-    ;;?? hack (?) to handle markdown extensions...
+         ;;?? hack (?) to handle markdown extensions...
     (let ((*package* (find-package :cl-markdown)))
-      (markdown:markdown file :stream
-			 (output-path-for-source file) :format :html
-			 :additional-extensions '(docs today now
-						  footnote footnotes)))))
+      (markdown:markdown 
+       file :stream
+       (output-path-for-source file) :format :html
+       :additional-extensions
+       '(cl-markdown::docs cl-markdown::docs-index
+	 cl-markdown::today cl-markdown::now
+	 cl-markdown::footnote cl-markdown::footnotes 
+	 cl-markdown::glossary)))))
 
 (defmethod regenerate-file ((kind (eql :css)) file)
   (copy-source-to-output file))
