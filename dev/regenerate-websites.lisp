@@ -29,15 +29,6 @@
 		 *website-source*
 		 (make-pathname :name :wild :type :wild
 				:directory '(:relative :wild-inferiors)))))
-    #+(or)
-    (cl-fad:walk-directory 
-     *website-source*
-     (lambda (file)
-       (print file)
-       (regenerate-file 
-        (form-keyword (pathname-type file)) file))
-     :test (complement 'ignore-file-p))
-    ;;?? Need run-command...
     #-DIGITOOL
     (create-changelog system-name)
     #-DIGITOOL
@@ -86,8 +77,12 @@
        :additional-extensions
        '(cl-markdown::docs cl-markdown::docs-index
 	 cl-markdown::today cl-markdown::now
-	 cl-markdown::footnote cl-markdown::footnotes 
-	 cl-markdown::glossary)))))
+;	 cl-markdown::footnote cl-markdown::footnotes 
+	 cl-markdown::glossary)))
+    (copy-file file (make-pathname 
+		     :type "text"
+		     :defaults (output-path-for-source file))
+	       :if-exists :supersede)))
 
 (defmethod regenerate-file ((kind (eql :css)) file)
   (copy-source-to-output file))
