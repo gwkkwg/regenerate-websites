@@ -9,7 +9,9 @@
        (regenerate-website (key system) :force? force?)))
 
 (defun regenerate-website (system-name &key (force? nil))
-  (asdf:oos 'asdf:load-op system-name)
+  (let ((system (find-system system-name)))
+    (when (asdf-packaging? system) 
+      (asdf:oos 'asdf:load-op system-name)))
   (let ((lml2::*output-dir* (website-output-directory system-name))
         (*package* *package*)
         (*website-source* (website-source-directory system-name))

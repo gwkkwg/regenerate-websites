@@ -11,7 +11,6 @@
                                            ,(string-downcase (kl:ensure-string home))
                                            "dev" "documentation"))))
 
-;;; ---------------------------------------------------------------------------
 
 (defun create-tinaa-documentation-for-systems ()
   (loop for system in *metabang-common-lisp-systems*
