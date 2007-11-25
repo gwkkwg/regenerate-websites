@@ -9,9 +9,7 @@
        (regenerate-website (key system) :force? force?)))
 
 (defun regenerate-website (system-name &key (force? nil))
-  (let ((system (find-system system-name)))
-    (when (asdf-packaging? system) 
-      (asdf:oos 'asdf:load-op system-name)))
+  (asdf:oos 'asdf:load-op system-name)
   (let ((lml2::*output-dir* (website-output-directory system-name))
         (*package* *package*)
         (*website-source* (website-source-directory system-name))
@@ -72,7 +70,7 @@
             (file-newer-than-file-p 
              file (output-path-for-source file))) 
          ;;?? hack (?) to handle markdown extensions...
-    (let ((*package* (find-package :cl-markdown)))
+    (let (#+(or) (*package* (find-package :cl-markdown)))
       (markdown:markdown 
        file :stream
        (output-path-for-source file) :format :html

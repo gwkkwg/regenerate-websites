@@ -1,4 +1,4 @@
-;;;-*- Mode: Lisp; Package: METABANG.UTILITIES -*-
+;;;-*- mode: lisp; package: metabang.utilities -*-
 
 #| simple-header
 
