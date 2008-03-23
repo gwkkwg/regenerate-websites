@@ -2,11 +2,6 @@
 
 (in-package #:regenerate-websites)
 
-(export '(asdf-packaging? 
-          metabang-software?))
-
-;;; ---------------------------------------------------------------------------
-
 (defclass* metabang-system ()
   ((name nil ir)
    (key nil ir)
@@ -162,10 +157,9 @@
          (mapcar (lambda (data)
                    (apply #'make-instance 'metabang-system data))
                  '((:key :asdf-binary-locations :name "ASDF-Binary-Locations"
-                         :sub-folder "cl-containers"
                          :short-description "Put Lisp binaries in their places"
 	                 :build-documentation? nil
-                         :darcs-repo "http://common-lisp.net/project/cl-containers/asdf-binary-locations/darcs/asdf-binary-locations")
+                         :darcs-repo "http://common-lisp.net/project/asdf-binary-locations")
                    
                    (:key :asdf-install-tester
                          :name "ASDF-Install-Tester"
@@ -263,15 +257,19 @@
                    (:key :moptilities :name "Moptilities"
                          :short-description "Implementation independent MOP utilities"
                          :build-documentation? t
-                         :darcs-repo "http://common-lisp.net/project/moptilities/darcs/moptilities")
+                         :darcs-repo "http://common-lisp.net/project/moptilities")
                    
                    (:key :metabang-bind :name "metabang-bind" 
                          :cliki "bind"
                          :short-description "Handle destructuring, multiple-values and let simultaneously"
                          :build-documentation? t
                          :home-directory "metabang-bind"
-                         :darcs-repo "http://common-lisp.net/project/cl-containers/metabang-bind/darcs/metabang-bind")
+                         :darcs-repo "http://common-lisp.net/project/metabang-bind")
                    
+		   (:key :simple-advice :name "simple-advice"
+                         :short-description "Portable Common Lisp advice facility"
+                         :build-documentation? nil
+                         :darcs-repo "http://common-lisp.net/project/simple-advice/")
                    (:key :simple-http :name "Simple HTTP" 
                          :root "http://metabang.gotdns.com/software/"
                          :short-description "Not as trivial as trivial HTTP, but still simple..."

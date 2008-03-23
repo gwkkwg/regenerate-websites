@@ -2,7 +2,7 @@
 
 #| simple-header
 
-Copyright 2004 - 2005 metabang.com (www.metabang.com), 
+Copyright 2004 - 2008 metabang.com (www.metabang.com), 
 55 Harkness Road, Pelham, MA 01002
 Gary Warren King
 
@@ -50,4 +50,6 @@ DISCUSSION
 	   #:create-tinaa-documentation-for-systems
            #:software?
            #:key
-           #:short-description))
+           #:short-description
+	   #:asdf-packaging? 
+	   #:metabang-software?))

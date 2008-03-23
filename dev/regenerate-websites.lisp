@@ -8,8 +8,9 @@
        (print system) 
        (regenerate-website (key system) :force? force?)))
 
-(defun regenerate-website (system-name &key (force? nil))
-  (asdf:oos 'asdf:load-op system-name)
+(defun regenerate-website (system-name &key (force? nil) (load-system? t))
+  (when load-system?
+    (asdf:oos 'asdf:load-op system-name))
   (let ((lml2::*output-dir* (website-output-directory system-name))
         (*package* *package*)
         (*website-source* (website-source-directory system-name))
@@ -78,7 +79,8 @@
        '(cl-markdown::docs cl-markdown::docs-index
 	 cl-markdown::today cl-markdown::now
 ;	 cl-markdown::footnote cl-markdown::footnotes 
-	 cl-markdown::glossary)))
+	 cl-markdown::glossary
+	 cl-markdown::metabang-projects-list)))
     (copy-file file (make-pathname 
 		     :type "text"
 		     :defaults (output-path-for-source file))
@@ -161,3 +163,38 @@
           ((:html :xmlns "http://www.w3.org/1999/xhtml")
            ,@html))))
 |#
+
+(cl-markdown::defextension (metabang-projects-list
+			    :arguments ((other :keyword)))
+  (ecase cl-markdown::phase
+    (:parse
+     ;; no worries
+     )
+    (:render 
+     (loop for system in rw:*metabang-common-lisp-systems* 
+	when (if other
+		 (not (rw:metabang-software? system))
+		 (rw:metabang-software? system)) do
+	(format cl-markdown::*output-stream*
+		"~&<div class='system-name'>~a</div>~%"
+		(with-output-to-string (lml2:*html-stream*)
+		  (rw:link (rw:key system))))
+	(format cl-markdown::*output-stream*
+		"~&<div class='system-description'>~a</div>~%"
+		(with-output-to-string (lml2:*html-stream*)
+		  (html (:princ (rw:short-description system)))))))))
+
+
+#+(or)
+(cl-markdown:markdown
+ "Hi
+
+{metabang-projects-list :other t}
+
+Bye"
+ :additional-extensions
+ '(cl-markdown::docs cl-markdown::docs-index
+   cl-markdown::today cl-markdown::now
+					;	 cl-markdown::footnote cl-markdown::footnotes 
+   cl-markdown::glossary
+   cl-markdown::metabang-projects-list))
