@@ -80,7 +80,13 @@
 	 cl-markdown::today cl-markdown::now
 ;	 cl-markdown::footnote cl-markdown::footnotes 
 	 cl-markdown::glossary
-	 cl-markdown::metabang-projects-list)))
+	 cl-markdown::metabang-projects-list)
+
+       :properties `((:search-locations 
+		      . ,(list
+			  (asdf:system-relative-pathname 
+			   'regenerate-websites "../shared/"))
+		      ))))
     (copy-file file (make-pathname 
 		     :type "text"
 		     :defaults (output-path-for-source file))

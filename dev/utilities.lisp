@@ -326,7 +326,22 @@
                          :short-description "A tool for downloading and installing lisp libraries and packages."
                          :metabang-software? nil
                          :asdf-packaging? t
-                         :build-website? t)))
+                         :build-website? t)
+
+		   (:key :dynamic-classes :name "dynamic-classes"
+                         :short-description "Classes the way you want them"
+                         :build-documentation? t
+                         :darcs-repo "http://common-lisp.net/project/dyanmic-classes/")
+		   
+		   (:key :metatilities-base :name "metatilities-base"
+		    :short-description "something to stand on"
+		    :build-documentation? t
+		    :darcs-repo "http://common-lisp.net/project/metatilities-base/")
+
+		   (:key :markumentation :name "markumentation"
+		    :short-description "CL-Markdown does documentation, details at 11"
+		    :build-documentation? t
+		    :darcs-repo "http://common-lisp.net/project/markumentation/")))
          #'string-lessp
          :key #'key))
   
