@@ -44,5 +44,5 @@ DISCUSSION
   :depends-on (:metatilities-base 
 	       :tinaa
 	       :xmls
-	       :cl-markdown))
+	       :docudown))
 

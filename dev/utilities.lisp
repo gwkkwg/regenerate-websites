@@ -338,10 +338,10 @@
 		    :build-documentation? t
 		    :darcs-repo "http://common-lisp.net/project/metatilities-base/")
 
-		   (:key :markumentation :name "markumentation"
+		   (:key :docudown :name "docudown"
 		    :short-description "CL-Markdown does documentation, details at 11"
 		    :build-documentation? t
-		    :darcs-repo "http://common-lisp.net/project/markumentation/")))
+		    :darcs-repo "http://common-lisp.net/project/docudown/")))
          #'string-lessp
          :key #'key))
   
