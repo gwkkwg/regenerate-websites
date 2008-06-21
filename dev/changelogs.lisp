@@ -2,6 +2,45 @@
 
 (in-package #:regenerate-websites)
 
+
+(defun generate-shared-headers ()
+  (html
+   ((:link :rel "stylesheet" :type "text/css" :href "http://common-lisp.net/project/cl-containers/shared/style.css"))
+   ((:meta :http-equiv "Content-Type" :content "text/html; charset=ISO-8859-1"))))
+
+(defun generate-button-row (&optional text)
+  (html
+   ((:a :class "nav" :href "http://validator.w3.org/check/referer" 
+        :title "xhtml1.1")
+    ((:img :src (button-img-src "xhtml.gif")
+           :width "80" :height "15" :title "valid xhtml button"
+           :alt "valid xhtml")))
+   #+Ignore
+   ((:a :class "nav" 
+        :href "http://jigsaw.w3.org/css-validator/validator?uri=http%3A%2F%2Fcommon-lisp.net~2Fproject~2Fcl-containers%2Fstyle.css" 
+        :title "css")
+    ((:img :src (button-img-src "cssvalid.gif")
+           :width "80" :height "15" :title "valid css button"
+           :alt "valid css")))
+   ((:a :class "nav" :href "http://www.catb.org/hacker-emblem/" :title "hacker")
+    ((:img :src (button-img-src "hacker.png") 
+           :width "80" :height "15" :title "hacker emblem"
+           :alt "hacker button")))
+   ((:a :class "nav" :HREF "http://lml2.b9.com/" :title "lml2 powered")
+    ((:img :src (button-img-src "lml2-powered.png") 
+           :width "80" :height "15" :title "lml2 powered"
+           :alt "lml2 button")))
+   ((:a :class "nav" :href "http://www.lisp.org/" :title "Association of Lisp Users")
+    ((:img :src (button-img-src "lambda-lisp.png") 
+           :width "80" :height "15" :title "ALU emblem"
+           :alt "ALU button")))
+   ((:a :class "nav" :href "http://common-lisp.net/" :title "Common-Lisp.net")
+    ((:img :src (button-img-src "lisp-lizard.png") 
+           :width "80" :height "15" :title "Common-Lisp.net"
+           :alt "Common-Lisp.net button")))
+   (when text
+     (html ((:span :class "footer-text") (lml-princ text))))))
+
 (defun create-changelog (system-name)
   (let ((repo (system-home system-name))
         (output (changelog-source system-name)))
@@ -20,8 +59,6 @@
      (translate-logical-pathname repo)
      (translate-logical-pathname output))
     output))
-
-;;; ---------------------------------------------------------------------------
 
 (defun create-changelog-page (system-name)
   (let* ((system (find-system system-name))

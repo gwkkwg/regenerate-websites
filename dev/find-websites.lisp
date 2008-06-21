@@ -49,3 +49,4 @@ openmcl --eval "(asdf:oos 'asdf:load-op 'asdf-install-tester)"
 (asdf-test :systems *metabang-systems* :lisps '(:clisp :sbcl :openmcl))
 (asdf-test :systems '(moptilities) :lisps '(:clisp :openmcl :sbcl))
 (asdf-test :systems '(moptilities) :lisps '(:allegro))
+

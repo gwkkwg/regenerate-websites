@@ -11,8 +11,7 @@
 (defun regenerate-website (system-name &key (force? nil) (load-system? t))
   (when load-system?
     (asdf:oos 'asdf:load-op system-name))
-  (let ((lml2::*output-dir* (website-output-directory system-name))
-        (*package* *package*)
+  (let ((*package* *package*)
         (*website-source* (website-source-directory system-name))
         (*website-output* (website-output-directory system-name))
         (*force-rebuild?* force?)
@@ -47,19 +46,6 @@
 
 (defmethod regenerate-file (kind file)
   (warn "I have no idea what to do with ~A of kind ~A" file kind))
-
-(defmethod regenerate-file ((kind (eql :lml)) file)
-  #+(or)
-  (format t "~%~A ~A~%    ~A"
-	  (file-newer-than-file-p 
-	   file (output-path-for-source file)) 
-	  file
-	  (output-path-for-source file))
-  (when (or *force-rebuild?*
-            (file-newer-than-file-p 
-             file (output-path-for-source file))) 
-    (let ((lml2::*output-dir* (output-path-for-source file)))
-      (lml2::lml-load file))))
 
 (defmethod regenerate-file ((kind (eql :md)) file)
   #+(or)
@@ -136,7 +122,6 @@
   (process-xml-file (pathname-name file) file))
 
 #|
-(in-package #:few)
 
 #+Ignore
 ;; suck site up and output as LML
@@ -151,24 +136,6 @@
                        :print-right-margin 70)
        (format s "~S" html))))
  (directory "Billy-Pilgrim:Users:gwking:darcs:metabang.tinaa:website:*.html"))
-
-(net.html.parser:parse-html 
- #P"Billy-Pilgrim:Users:gwking:darcs:metabang.tinaa:website:index.html")
-
-(probe-file
- "Billy-Pilgrim:Users:gwking:darcs:cl-containers:website:index.shtml")
-
-(eval `(html
-        ((:html :xmlns "http://www.w3.org/1999/xhtml")
-         ,@(rest ccl:!))))
-
-#+No
-(with-new-file (*html-stream* (spy (make-pathname :type "lml" :defaults file)))
-  (dtd-prologue :xhtml11)
-  (eval `(html
-          ((:html :xmlns "http://www.w3.org/1999/xhtml")
-           ,@html))))
-|#
 
 (cl-markdown::defextension (metabang-projects-list
 			    :arguments ((other :keyword)))
@@ -201,6 +168,7 @@ Bye"
  :additional-extensions
  '(cl-markdown::docs cl-markdown::docs-index
    cl-markdown::today cl-markdown::now
-					;	 cl-markdown::footnote cl-markdown::footnotes 
    cl-markdown::glossary
    cl-markdown::metabang-projects-list))
+
+|#

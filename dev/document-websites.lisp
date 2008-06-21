@@ -4,8 +4,8 @@
                                                      (home system)
                                                      (package system))
   (asdf:oos 'asdf:load-op system)
-  (document-system 
-   'asdf-system package
+  (tinaa:document-system 
+   'tinaa::asdf-system package
    (make-pathname 
     :host "user-home"
     :directory `(:absolute "darcs" 
@@ -15,7 +15,6 @@
 (defun create-tinaa-documentation-for-systems ()
   (loop for system in *metabang-common-lisp-systems*
         when (build-documentation? system) do
-
         (bind:bind ((system-name (key system))
 		    (documation-package (documentation-package system))
                     (home (home-directory system)))
