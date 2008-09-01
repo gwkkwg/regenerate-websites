@@ -2,6 +2,20 @@
 
 (in-package #:regenerate-websites)
 
+(defun markdown-extensions ()
+  '(cl-markdown::docs cl-markdown::docs-index
+    cl-markdown::today cl-markdown::now
+					;	 cl-markdown::footnote cl-markdown::footnotes 
+    cl-markdown::glossary
+    cl-markdown::metabang-projects-list))
+
+(defun search-locations ()
+  `((:search-locations 
+     . ,(list
+	 (asdf:system-relative-pathname 
+	  'regenerate-websites "../shared/"))
+     )))
+
 (defun ensure-string (x)
   (typecase x
     (string x)
@@ -253,12 +267,21 @@
 		  :build-documentation? nil
 		  :darcs-repo "http://common-lisp.net/project/simple-advice/")
 		 (:key :simple-http :name "Simple HTTP" 
-		  :root "http://metabang.gotdns.com/software/"
 		  :short-description "Not as trivial as trivial HTTP, but still simple..."
 		  :build-documentation? t
-		  :darcs-repo "http://metabang.gotdns.com/software/simple-http/darcs/simple-http"
+		  :darcs-repo "http://common-lisp.net/project/simple-http"
 		  :e8el? t)
-                   
+		 (:key :trivial-http :name "Trivial HTTP" 
+		  :short-description "You say simple, I say trivial"
+		  :build-documentation? t
+		  :darcs-repo "http://common-lisp.net/project/trivial-http"
+		  :e8el? t)
+
+		 (:key :geohash :name "Geohash in Common Lisp" 
+		  :short-description "Implements the geohash.org algorithm"
+		  :build-documentation? t
+		  :darcs-repo "http://common-lisp.net/project/geohash"
+		  :e8el? t)
 		 (:key :system-check :name "System-check" 
 		  :short-description "Keeping your systems up to date"
 		  :root "http://metabang.gotdns.com/software/" 
