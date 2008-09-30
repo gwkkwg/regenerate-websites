@@ -41,7 +41,6 @@
    (darcs-repo nil ir)
    (e8el? nil ir)))
 
-;;; ---------------------------------------------------------------------------
 
 (defmethod initialize-instance :after ((object metabang-system) &key)
   (unless (folder object)
@@ -53,19 +52,16 @@
     (setf (slot-value object 'documentation-package)
           (key object))))
 
-;;; ---------------------------------------------------------------------------
 
 (defmethod print-object ((object metabang-system) stream)
   (print-unreadable-object (object stream :type t)
     (prin1 (key object) stream)))
 
-;;; ---------------------------------------------------------------------------
 
 (defun find-system (system-name)
   (find system-name *metabang-common-lisp-systems* 
         :key 'key))
 
-;;; ---------------------------------------------------------------------------
 
 (defun system-home (system-name)
   (let ((system (find-system system-name)))
@@ -75,7 +71,6 @@
     ;;?? ugh
     (format nil "user-home:darcs;~(~A~);" (home-directory system))))
 
-;;; ---------------------------------------------------------------------------
 
 ;;?? also in tinaa
 (defun lml-insert-file (file)
@@ -86,7 +81,6 @@
 	  (html (lml-princ line))))
     (format *trace-output* "Warning: unable to insert LML file ~S" file)))
 
-;;; ---------------------------------------------------------------------------
 
 (defun website-source-directory (system-name)
   (let ((system (find-system system-name))) 
@@ -94,7 +88,6 @@
      (format nil "user-home:darcs;~(~A~);website;source;"
              (home-directory system)))))
 
-;;; ---------------------------------------------------------------------------
 
 (defun website-output-directory (system-name)
   (let ((system (find-system system-name))) 
@@ -102,7 +95,6 @@
      (format nil "user-home:darcs;~(~A~);website;output;" 
              (home-directory system)))))
 
-;;; ---------------------------------------------------------------------------
 
 (defun changelog-source (system-name)
   (let ((source (website-source-directory system-name)))
@@ -112,7 +104,6 @@
    :directory (butlast (pathname-directory source)) 
    :defaults source)))
 
-;;; ---------------------------------------------------------------------------
 
 (defun copy-source-to-output (source)
   (let ((target (output-path-for-source source)))
@@ -123,7 +114,6 @@
               'file-error :pathname target))
     (copy-file source target :if-exists :supersede)))
 
-;;; ---------------------------------------------------------------------------
 
 (defun output-path-for-source (source-file)
   (translate-pathname
@@ -137,7 +127,6 @@
     :name :wild
     :type (output-type-for-source source-file))))
 
-;;; ---------------------------------------------------------------------------
 
 (defun output-type-for-source (source-file)
   (let ((type (pathname-type source-file)))
@@ -358,9 +347,7 @@
        #'string-lessp
        :key #'key))
 
-;;; ---------------------------------------------------------------------------
 ;;; bits and pieces
-;;; ---------------------------------------------------------------------------
 
 (defun button-img-src (image-name)
   (format nil "http://common-lisp.net/project/cl-containers/shared/buttons/~A"

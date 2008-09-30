@@ -6,7 +6,6 @@
 (defgeneric output-headers (site title)
   (:documentation ""))
 
-;;; ---------------------------------------------------------------------------
 
 (defmethod output-footer ((site (eql :metabang)) current-page) 
   (flet ((make-link (name link text title &optional (class "link"))
@@ -43,7 +42,6 @@
        ", Copyright  2004 - " (lml-princ (format-date "%Y" (get-universal-time))) " -- " 
        ((:a :href "mailto:gwking@metabang.com") "Gary Warren King"))))))
 
-;;; ---------------------------------------------------------------------------
 
 (defmethod output-headers ((site (eql :metabang)) title)
   (html

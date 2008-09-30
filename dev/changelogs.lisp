@@ -99,7 +99,6 @@
 	  ((:div :class "footer")
 	   (generate-button-row))))))))
 
-;;; ---------------------------------------------------------------------------
 
 (defclass* changelog-entry ()
   ((hash nil ir)
@@ -109,7 +108,6 @@
    (author nil ir)
    (description nil ir)))
 
-;;; ---------------------------------------------------------------------------
 
 (defun read-changelog (file)
   (when (plusp (kl:file-size file))

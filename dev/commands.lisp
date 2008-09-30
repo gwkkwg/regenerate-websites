@@ -16,7 +16,6 @@
     #+Ignore
     (shell-command "rcopy" "--exclude" "*.tem" src dest)))
 
-;;; ---------------------------------------------------------------------------
 
 (defun upload-documentation (system)
   (let* ((def (find-system system))
