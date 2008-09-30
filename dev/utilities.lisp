@@ -298,7 +298,11 @@
 		  :short-description "One shell to run them all"
 		  :build-documentation? t
 		  :darcs-repo "http://common-lisp.net/project/trivial-shell/darcs/trivial-shell")
-                   
+
+		 (:key :trivial-timeout :name "trivial-timeout"
+		  :short-description "Because sometimes you can't wait"
+		  :build-documentation? t
+		  :darcs-repo "http://common-lisp.net/project/trivial-timeout/")                   
 		 (:key :metasite :name "metabang.com" 
 		  :root "http://www.metabang.com/"
 		  :folder ""
