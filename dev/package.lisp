@@ -1,7 +1,7 @@
 (in-package #:common-lisp)
 
 (defpackage #:regenerate-websites
-  (:use #:common-lisp #:metatilities #:lml2)
+  (:use #:common-lisp #:metatilities #:lml2 #:cl-containers)
   (:nicknames #:rw)
   (:shadowing-import-from #:metatilities
                           #:copy-file)
