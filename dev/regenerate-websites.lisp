@@ -8,7 +8,8 @@
        (print system) 
        (regenerate-website (key system) :force? force?)))
 
-(defun regenerate-website (system-name &key (force? nil) (load-system? t))
+(defun regenerate-website (system-name &key (force? nil) 
+			   (load-system? (system-property system-name 'load-system?)))
   (when load-system?
     (asdf:oos 'asdf:load-op system-name))
   (let ((*package* *package*)

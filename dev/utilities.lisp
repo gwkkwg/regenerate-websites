@@ -135,7 +135,16 @@
       (sort
        (mapcar (lambda (data)
 		 (apply #'make-instance 'metabang-system data))
-	       '((:key :asdf-binary-locations :name "ASDF-Binary-Locations"
+	       '((:key :asdf :name "ASDF"
+		  :short-description "Another System Definition Facility"
+		  :build-documentation? nil
+		  :homepage "http://common-lisp.net/project/asdf"
+;;		  :home-directory "user-home:repository;asdf;"
+		  :home-directory "/repository/git/asdf/"
+		  :load-system? nil
+		  :vcs git)
+                 
+		 (:key :asdf-binary-locations :name "ASDF-Binary-Locations"
 		  :short-description "Put Lisp binaries in their places"
 		  :build-documentation? nil
 		  :homepage "http://common-lisp.net/project/asdf-binary-locations")
