@@ -47,30 +47,26 @@
     (setf (slot-value object 'folder) (key object)))
   (unless (home-directory object)
     (setf (slot-value object 'home-directory) 
-          (string-downcase (ensure-string (key object)))))
+	  (format nil "user-home:darcs;~(~A~);"
+		  (string-downcase (ensure-string (key object))))))
   (unless (documentation-package object)
     (setf (slot-value object 'documentation-package)
           (key object))))
-
 
 (defmethod print-object ((object metabang-system) stream)
   (print-unreadable-object (object stream :type t)
     (prin1 (key object) stream)))
 
-
 (defun find-system (system-name)
   (find system-name *metabang-common-lisp-systems* 
         :key 'key))
 
+(defun system-property (system-name property)
+  (slot-value (find-system system-name) property))
 
 (defun system-home (system-name)
-  (let ((system (find-system system-name)))
-    (assert system
-	    nil
-	    "Error, cannot find system ~S" system-name)
-    ;;?? ugh
-    (format nil "user-home:darcs;~(~A~);" (home-directory system))))
-
+  ;;?? ugh
+  (system-property system-name 'home-directory))
 
 ;;?? also in tinaa
 (defun lml-insert-file (file)
@@ -78,23 +74,22 @@
       (with-open-file (in file :direction :input)
         (do ((line (read-line in nil 'eof) (read-line in nil 'eof)))
 	    ((eq line 'eof))
-	  (html (lml-princ line))))
+	  (html (lml-print line))))
     (format *trace-output* "Warning: unable to insert LML file ~S" file)))
-
 
 (defun website-source-directory (system-name)
   (let ((system (find-system system-name))) 
     (translate-logical-pathname
-     (format nil "user-home:darcs;~(~A~);website;source;"
-             (home-directory system)))))
-
+     (merge-pathnames
+      (make-pathname :directory '(:relative "website" "source"))
+      (home-directory system)))))
 
 (defun website-output-directory (system-name)
   (let ((system (find-system system-name))) 
     (translate-logical-pathname
-     (format nil "user-home:darcs;~(~A~);website;output;" 
-             (home-directory system)))))
-
+     (merge-pathnames
+      (make-pathname :directory '(:relative "website" "output"))
+      (home-directory system)))))
 
 (defun changelog-source (system-name)
   (let ((source (website-source-directory system-name)))
@@ -103,7 +98,6 @@
      :name "changelog"
    :directory (butlast (pathname-directory source)) 
    :defaults source)))
-
 
 (defun copy-source-to-output (source)
   (let ((target (output-path-for-source source)))
@@ -126,7 +120,6 @@
     :directory `(,@(pathname-directory *website-output*) :wild-inferiors)
     :name :wild
     :type (output-type-for-source source-file))))
-
 
 (defun output-type-for-source (source-file)
   (let ((type (pathname-type source-file)))

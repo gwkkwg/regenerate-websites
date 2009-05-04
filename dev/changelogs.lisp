@@ -41,26 +41,8 @@
    (when text
      (html ((:span :class "footer-text") (lml-princ text))))))
 
-(defun create-changelog (system-name)
-  (let ((repo (system-home system-name))
-        (output (changelog-source system-name)))
-    (kl:run-shell-command 
-     "darcs changes --xml --repo=file://~A > ~A" 
-     (translate-logical-pathname repo)
-     (translate-logical-pathname output))
-    output))
-
-#+Ignore
-(defun create-changelog (system-name)
-  (let ((repo (system-home system-name))
-        (output (changelog-source system-name)))
-    (format t
-     "darcs changes --xml --repo=file://~A > ~A"
-     (translate-logical-pathname repo)
-     (translate-logical-pathname output))
-    output))
-
-(defun create-changelog-page (system-name)
+(defmethod create-changelog-page-for-system ((vcs t) system-name)
+  (create-changelog system-name)
   (let* ((system (find-system system-name))
          (lml2::*output-dir* (website-output-directory system-name))
          (*package* *package*)
@@ -99,6 +81,51 @@
 	  ((:div :class "footer")
 	   (generate-button-row))))))))
 
+(defmethod create-changelog-page-for-system ((vcs (eql 'git)) system-name)
+  (create-git-changelog system-name)
+  (let* ((system (find-system system-name))
+         (lml2::*output-dir* (website-output-directory system-name))
+         (*package* *package*))    
+    (html-file-page ("changelog")
+      (html
+       (:head (:title (lml-format "Changelog for ~A" (name system)))
+	      (generate-shared-headers))
+       (:body
+	((:div :class "header")
+	 ((:span :class "logo")
+	  ((:a :href "http://www.metabang.com/" :title "metabang.com")
+	   ((:img :src "http://common-lisp.net/project/cl-containers/images/metabang-2.png"
+		  :title "metabang.com" :width 100))))
+	 (:h2 (lml-format "Changelog for ~A" (name system)))
+	 (:h4 "Generated on "
+	      (lml-princ (metatilities:format-date "%A, %e %B %Y" (get-universal-time)))))
+	((:div :class "changelog")
+	 ((:table)
+	  (lml-insert-file (changelog-source system-name))))
+	((:div :class "footer")
+	 (generate-button-row)))))))
+
+(defun create-changelog (system-name)
+  (let ((repo (system-home system-name))
+        (output (changelog-source system-name)))
+    (kl:run-shell-command 
+     "darcs changes --xml --repo=file://~A > ~A" 
+     (translate-logical-pathname repo)
+     (translate-logical-pathname output))
+    output))
+
+(defun create-git-changelog (system-name)
+  (let ((repo (system-home system-name))
+        (output (changelog-source system-name)))
+    (kl:run-shell-command 
+     "cd ~a ; git log --pretty=format:\"<tr>%n<td class='changelog-date'>%cD</td>%n<td class='changelog-author'>%an</td>%n</tr>%n<tr class='changelog-row'><td colspan='2' class='changelog-description'>%s%n%n<pre>%b</pre></td></tr>\" > ~a"
+     (translate-logical-pathname repo)
+     (translate-logical-pathname output))
+    output))
+
+(defun create-changelog-page (system-name)
+  (create-changelog-page-for-system 
+   (system-property system-name 'vcs) system-name))
 
 (defclass* changelog-entry ()
   ((hash nil ir)

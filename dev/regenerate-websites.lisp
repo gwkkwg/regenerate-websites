@@ -40,8 +40,6 @@
 			      :properties (search-locations)))
 			      
     #-DIGITOOL
-    (create-changelog system-name)
-    #-DIGITOOL
     (create-changelog-page system-name)))
 
 (defun ignore-file-p (file)
