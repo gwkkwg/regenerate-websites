@@ -48,7 +48,13 @@ instructions."))
 		 (:file "bits-and-pieces"
 			:depends-on ("utilities"))
 		 (:file "commands"
-			:depends-on ("utilities")))))
+			:depends-on ("utilities"))))
+	        (:module
+		"metadata"
+		:pathname "dev/"
+		:depends-on ("dev")
+		:components 
+		((:file "metadata"))))
   :depends-on ((:version :metatilities-base "0.6.2")
 	       :xmls
 	       :docudown
