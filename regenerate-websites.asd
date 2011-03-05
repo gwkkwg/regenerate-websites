@@ -13,12 +13,14 @@ DISCUSSION
 (in-package :asdf-regenerate-websites)
 
 ;; try hard
-(unless (find-system 'asdf-system-connections nil)
+(unless (or (member :asdf-system-connections *features*)
+	    (find-system 'asdf-system-connections nil))
   (warn "The regenerate-websites system would enjoy having ~
 asdf-system-connections around. See 
 http://www.cliki.net/asdf-system-connections for details and download
 instructions."))
-(when (find-system 'asdf-system-connections nil)
+(when (and (not (member :asdf-system-connections *features*))
+	   (find-system 'asdf-system-connections nil))
   (operate 'load-op 'asdf-system-connections))
 
 (defsystem regenerate-websites

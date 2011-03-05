@@ -4,7 +4,7 @@
 
 (defun markdown-extensions ()
   '(cl-markdown::docs cl-markdown::docs-index
-    cl-markdown::today cl-markdown::now
+    cl-markdown::today cl-markdown::now cl-markdown::current-year
 					;	 cl-markdown::footnote cl-markdown::footnotes 
     cl-markdown::glossary
     cl-markdown::metabang-projects-list))
